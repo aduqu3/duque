@@ -1,0 +1,7 @@
+www:
+  image: nginx
+  restart: always
+  ports:
+    - "80:80"
+  volumes:
+    - /home/yeoui/git/aduqu3/mypage-ssl/www:/usr/share/nginx/html:ro

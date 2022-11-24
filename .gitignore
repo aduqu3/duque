@@ -1,0 +1,6 @@
+python/video to images/data/*
+python/video to images/env/*
+python/video to images/labs/*
+
+*.pyc
+*.pyo

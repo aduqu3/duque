@@ -1,7 +1,63 @@
-www:
-  image: nginx
-  restart: always
-  ports:
-    - "80:80"
-  volumes:
-    - /home/yeoui/git/aduqu3/mypage-ssl/www:/usr/share/nginx/html:ro
+version: '3'
+
+services:
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - certs:/etc/nginx/certs:ro
+      - vhostd:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+    labels:
+      - com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy
+
+  letsencrypt:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    restart: always
+    environment:
+      - NGINX_PROXY_CONTAINER=nginx-proxy
+    volumes:
+      - certs:/etc/nginx/certs:rw
+      - vhostd:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+  www1:
+    image: nginx
+    restart: always
+    expose:
+      - "80"
+    volumes:
+      - /root/docker/www1:/usr/share/nginx/html:ro
+    environment:
+      - VIRTUAL_HOST=pruebas-dev.tech,www.pruebas-dev.tech
+      - LETSENCRYPT_HOST=pruebas-dev.tech,www.pruebas-dev.tech
+      - LETSENCRYPT_EMAIL=andres.duque@unillanos.edu.co
+    depends_on:
+      - nginx-proxy
+      - letsencrypt
+  
+  www2:
+    image: nginx
+    restart: always
+    expose:
+      - "80"
+    volumes:
+      - /root/docker/www2:/usr/share/nginx/html:ro
+    environment:
+      - VIRTUAL_HOST=aduqu3-dev.tech,www.aduqu3-dev.tech
+      - LETSENCRYPT_HOST=aduqu3-dev.tech,www.aduqu3-dev.tech
+      - LETSENCRYPT_EMAIL=juanduquet@usantotomas.edu.co
+    depends_on:
+      - nginx-proxy
+      - letsencrypt
+
+volumes: 
+  certs:
+  html:
+  vhostd:
+  www1:

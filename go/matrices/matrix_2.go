@@ -31,9 +31,9 @@ func main(){
 				mxn[len(mxn)-1][0] = "*"
 			}
 
-			// if i == len(mxn)-1 && j == 0 {
-			// 	mxn[len(mxn)-1][0] = "*"
-			// }
+			if j > 0 && i > 0 && i < len(mxn)-1 && j < len(mxn)-1{
+				mxn[i][j] = "*"
+			}
 
 			
 		}

@@ -2,10 +2,12 @@
 
 import cv2
 import os
+import time
 
-folder_name = 'MUSEO DE HISTORIA NATURAL'
+
+folder_name = 'LAB. CONTROL BIOLÓGICO'
 path = './labs/'+folder_name+'/'
-file_path = path + 'C0585.MP4'
+file_path = path + 'MVI_7031' + '.MOV'
 
 cam = cv2.VideoCapture(file_path)
 
@@ -29,9 +31,9 @@ while(True):
   
     if ret:
         # if video is still left continue creating images
-        name = './data/1920/'+ folder_name +' frame' + str(currentframe) + '.jpg'
-        name_r = './data/1320/'+ folder_name +' frame' + str(currentframe) + '.jpg'
-        # name_logo = './data/512/'+ folder_name +' frame' + str(currentframe) + '.jpg'
+        name = './data/1920/'+ folder_name +' frame_' + str(currentframe) + " " + str(time.time()) + '.jpg'
+        name_r = './data/1320/'+ folder_name +' frame_' + str(currentframe) + " " +  str(time.time()) + '.jpg'
+        # name_logo = './data/512/'+ folder_name +' frame_' + str(currentframe) + " " +  str(time.time()) + '.jpg'
 
         # print ('Creating...' + name)
 

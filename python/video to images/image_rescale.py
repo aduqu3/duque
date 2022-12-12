@@ -4,9 +4,9 @@ import cv2
 import numpy as np
 import os
 
-folder = './labs/other/'
-_img = 'IMG_0753'
-jpg = '.JPG'
+folder = './data_img/main/'
+_img = 'icaoc_02'
+jpg = '.jpg'
 
 frame = folder + _img + jpg
 
@@ -33,6 +33,7 @@ dim_logo = (512, 512) # logo
 frame_r = cv2.resize(img, dsize=dim_r, interpolation = cv2.INTER_AREA)
 cv2.imwrite(name, frame_r) # writing the extracted images
 
+# logo
 # frame_logo = cv2.resize(img, dsize=dim_logo, interpolation = cv2.INTER_AREA)
 # cv2.imwrite(name_logo, frame_logo) # writing the extracted images
 

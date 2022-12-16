@@ -50,7 +50,7 @@ def scale_img(path, image):
 
 
 # get the path or directory
-folder_dir = "./labs/other2/"
+folder_dir = "./labs/other5/"
 
 for img in os.listdir(folder_dir):
     # check if the image ends with png or jpg or jpeg

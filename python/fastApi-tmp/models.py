@@ -4,13 +4,13 @@ from datetime import datetime, timezone
 from database import Base
 
 
-# fila entrada
-class Fila(Base):
-    __tablename__ = "fila"
+# logs
+class Logs(Base):
+    __tablename__ = "logs"
 
     id = Column(Integer, primary_key=True, index=True)
-    time = Column(DateTime, default=datetime.now())
+    time = Column(DateTime)
     cantidad = Column(Integer)
+    evento = Column(String)
+    paradero = Column(String)
 
-
-# fila salida

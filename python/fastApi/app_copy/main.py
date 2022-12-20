@@ -44,7 +44,8 @@ def read_api(db: Session = Depends(get_db)):
 @app.post("/add_fila")
 def add_fila(fila: Logs, db: Session = Depends(get_db), paradero: str = paraderos):
     log = models.Logs()
-    log.time = datetime.now()
+    colombia = pytz.timezone("America/Bogota") 
+    log.time = datetime.now(colombia)
     log.cantidad = 1
     log.evento = "Estudiante entra a la fila"
     log.paradero = paradero
@@ -55,7 +56,8 @@ def add_fila(fila: Logs, db: Session = Depends(get_db), paradero: str = paradero
 @app.post("/out_fila")
 def out_fila(fila: Logs, db: Session = Depends(get_db), paradero: str = paraderos):
     log = models.Logs()
-    log.time = datetime.now()
+    colombia = pytz.timezone("America/Bogota") 
+    log.time = datetime.now(colombia)
     log.cantidad = 1
     log.evento = "Estudiante sale de la fila"
     log.paradero = paradero
@@ -66,7 +68,8 @@ def out_fila(fila: Logs, db: Session = Depends(get_db), paradero: str = paradero
 @app.post("/start_trayecto")
 def start_trayecto(fila: Logs, db: Session = Depends(get_db), paradero: str = paraderos):
     log = models.Logs()
-    log.time = datetime.now()
+    colombia = pytz.timezone("America/Bogota") 
+    log.time = datetime.now(colombia)
     log.evento = "Inicia trayecto"
     log.paradero = paradero
     db.add(log)
@@ -76,7 +79,8 @@ def start_trayecto(fila: Logs, db: Session = Depends(get_db), paradero: str = pa
 @app.post("/parada_trayecto_centro_u")
 def parada_trayecto_centro_u(fila: Logs, db: Session = Depends(get_db), paradero: str = paraderos):
     log = models.Logs()
-    log.time = datetime.now()
+    colombia = pytz.timezone("America/Bogota") 
+    log.time = datetime.now(colombia)
     log.evento = "Parada intermedia Centro a Universidad"
     log.paradero = paradero
     db.add(log)
@@ -86,7 +90,8 @@ def parada_trayecto_centro_u(fila: Logs, db: Session = Depends(get_db), paradero
 @app.post("/finish_trayecto")
 def finish_trayecto(fila: Logs, db: Session = Depends(get_db), paradero: str = paraderos):
     log = models.Logs()
-    log.time = datetime.now()
+    colombia = pytz.timezone("America/Bogota") 
+    log.time = datetime.now(colombia)
     log.evento = "Finaliza trayecto"
     log.paradero = paradero
     db.add(log)
@@ -96,7 +101,8 @@ def finish_trayecto(fila: Logs, db: Session = Depends(get_db), paradero: str = p
 @app.post("/sube_bus")
 def sube_bus(fila: Logs, db: Session = Depends(get_db), paradero: str = paraderos):
     log = models.Logs()
-    log.time = datetime.now()
+    colombia = pytz.timezone("America/Bogota") 
+    log.time = datetime.now(colombia)
     log.cantidad = 1
     log.evento = "Sube al bus"
     log.paradero = paradero
@@ -107,7 +113,8 @@ def sube_bus(fila: Logs, db: Session = Depends(get_db), paradero: str = paradero
 @app.post("/baja_bus")
 def baja_bus(fila: Logs, db: Session = Depends(get_db), paradero: str = paraderos):
     log = models.Logs()
-    log.time = datetime.now()
+    colombia = pytz.timezone("America/Bogota") 
+    log.time = datetime.now(colombia)
     log.cantidad = 1
     log.evento = "Baja del bus"
     log.paradero = paradero
@@ -119,7 +126,8 @@ def baja_bus(fila: Logs, db: Session = Depends(get_db), paradero: str = paradero
 @app.post("/parada_trayecto_u_centro")
 def parada_trayecto_u_centro(fila: Logs, db: Session = Depends(get_db), paradero: str = paraderos):
     log = models.Logs()
-    log.time = datetime.now()
+    colombia = pytz.timezone("America/Bogota") 
+    log.time = datetime.now(colombia)
     log.evento = "Parada intermedia Centro a Universidad"
     log.paradero = paradero
     db.add(log)

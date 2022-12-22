@@ -1,0 +1,34 @@
+{
+    "personas":[
+        {
+            "nombre":"Richard",
+            "cursos":
+            [
+                {
+                    "nombre":"calculo",
+                    "facultad":"basicas"
+                },
+                {
+                    "nombre":"progranacion",
+                    "facultad":"basicas"
+                }
+            ]
+
+        }, 
+        {
+            "nombre":"Duque",
+            "cursos":
+            [
+                {
+                    "nombre":"Graduado",
+                    "facultad":"basicas"
+                },
+                {
+                    "nombre":"progranacion",
+                    "facultad":"basicas"
+                }
+            ]
+
+        }
+    ]
+ }

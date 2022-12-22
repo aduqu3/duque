@@ -1,0 +1,28 @@
+{
+   "users": [
+      {
+         "name": "Mukul Latiyan",
+         "social": {
+            "facebook": "https://facebook.com/immukul",
+            "twitter": "https://twitter.com/immukul",
+            "linkedin": "https://linkedin.com/immukul"
+         }
+      },
+      {
+         "name": "Mayank",
+         "social": {
+            "facebook": "https://facebook.com/mayank101",
+            "twitter": "https://twitter.com/mayank101",
+            "linkedin": "https://linkedin.com/mayank101"
+         }
+      },
+      {
+         "name": "Deepak",
+         "social": {
+            "facebook": "https://facebook.com/deepak1",
+            "twitter": "https://twitter.com/deepak1",
+            "linkedin": "https://linkedin.com/deepak1"
+         }
+      }
+   ]
+}

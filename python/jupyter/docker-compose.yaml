@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  
+  jupyter-lab:
+    image: jupyter/scipy-notebook
+    restart: always
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+    ports:
+      - '8888:8888'
+    volumes: 
+      - .:/home/duque/work
+      # - "/etc/localtime:/etc/localtime:ro"
+      # - "/etc/timezone:/etc/timezone:ro"
+    
+# volumes:
+  # simu_data:
+    # driver: local

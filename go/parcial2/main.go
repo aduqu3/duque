@@ -32,6 +32,21 @@ func Promedio_Curso_Student(arr []Models.Student_Curso) float64 {
 	return avg
 }
 
+func Index(writer http.ResponseWriter, resp *http.Request) {
+	//fmt.Fprint(writer, "<h1>Hola mundo</h1>")
+
+	template, err := template.ParseFiles("Templates/index.html")
+
+	var response = "Hola mundo"
+
+	if err != nil {
+		fmt.Fprint(writer, "<h1>Página no encontrada<h1/>")
+		panic(err)
+	} else {
+		template.Execute(writer, response) //renderizar html
+	}
+}
+
 func Algebra(writer http.ResponseWriter, resp *http.Request) {
 	//fmt.Fprint(writer, "<h1>Hola mundo</h1>")
 
@@ -265,6 +280,7 @@ func Sexo(writer http.ResponseWriter, resp *http.Request) {
 func main() {
 	var ADDRESS = "localhost:8000"
 
+	http.HandleFunc("/", Index)
 	http.HandleFunc("/Algebra", Algebra)
 	http.HandleFunc("/best", Best)
 	http.HandleFunc("/Sexo", Sexo)

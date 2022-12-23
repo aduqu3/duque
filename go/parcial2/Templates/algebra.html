@@ -34,8 +34,16 @@
       </div>
     </div>
   </nav>
-  
-  <div class="container">
+  {{ range .}}
+    {{.Curso}}
+    {{.Promedio}}
+    {{range .Estudiantes}}
+      {{.Estudiante.Nombre}}
+      {{.Curso.Nota}}
+    {{end}}
+    <br><br><br><br>
+  {{ end}}
+  <!-- <div class="container">
     <h1 class="text-center">Promedios por cursos</h1>
     <table class="table">
       <thead>
@@ -56,12 +64,12 @@
   </div>
 
   {{range .Data}}
-    <!-- {{.}} -->
+    
     {{.Estudiante.Nombre}} 
     {{.Curso.Curso}}<br>
 
     
-  {{end}}
+  {{end}} -->
 
   
 </body>

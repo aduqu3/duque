@@ -12,31 +12,20 @@ import (
 	"sort"
 )
 
-// func min_arr(arr []string) int {
-// 	var min int
-// 	for i, tmp := range arr {
-// 		tmp2, _ := strconv.Atoi(tmp)
-// 		if i == 0 || tmp2 < min {
-// 			min = tmp2
-// 		}
-// 	}
-// 	return min
-// }
-
-// func (e C) Swap(i, j int) {
-//     e[i], e[j] = e[j], e[i]
-// }
-
-// func Min_nota(arr []Curso) Curso{
-// 	sort.Sort(arr, func(i, j int) bool {
-// 		return a[i] < a[j]
-// 	})
-// }
-
 func Promedio_Curso(arr []Models.Curso) float64 {
 	sum := 0.0
 	for _, item := range arr {
 		sum += float64(item.Nota)
+	}
+	avg := (float64(sum)) / (float64(len(arr)))
+
+	return avg
+}
+
+func Promedio_Curso_Student(arr []Models.Student_Curso) float64 {
+	sum := 0.0
+	for _, item := range arr {
+		sum += float64(item.Curso.Nota)
 	}
 	avg := (float64(sum)) / (float64(len(arr)))
 
@@ -67,68 +56,43 @@ func Algebra(writer http.ResponseWriter, resp *http.Request) {
 	// fmt.Println(JDatos.Datos)
 
 	// enviar datos
-	type Render struct {
+	type JResponse struct {
 		Curso       string
 		Promedio    float64
-		Estudiantes []Models.Dato
+		Estudiantes []Models.Student_Curso
 	}
 
-	var Algebra_lineal []Models.Curso
-	var Calculo_diferencial []Models.Curso
-	var Poo []Models.Curso
-	var Ctd []Models.Curso
+	var Algebra_arr []Models.Student_Curso
+	var Calculo_arr []Models.Student_Curso
+	var Poo_arr []Models.Student_Curso
+	var Ctd_arr []Models.Student_Curso
 
-	// Curso1Est1 := Models.Curso{Id: 1, Nombre: "Promgramación en Go"}
-	// Curso2Est1 := Models.Curso{Id: 2, Nombre: "Promgramación en Java"}
-	// Curso3Est1 := Models.Curso{Id: 3, Nombre: "Promgramación en Python"}
-	// Curso4Est1 := Models.Curso{Id: 4, Nombre: "Promgramación en C#"}
-
-	// sliceCursos := []Models.Curso{Curso1Est1, Curso2Est1, Curso3Est1, Curso4Est1}
-
-	type Student_Curso struct {
-		Estudiante Models.Dato
-		Curso      Models.Curso
-	}
-
-	var Algebra_arr []Student_Curso
-	var Calculo_arr []Student_Curso
-	var Poo_arr []Student_Curso
-	var Ctd_arr []Student_Curso
-
+	// recorrer datos del json
 	for _, item := range JDatos.Datos {
 
-		// estudiantes
-
-		// promedio mas alto por curso
+		// recorrer cursos para obtener estudiantes de ese curso
 		for _, item2 := range item.Cursos {
-			if item2.Curso == "Algebra lineal" {
-				// fmt.Println(item2.Curso)
-				// tmp := Models.Curso{Id: item2.Id, Curso: item2.Curso, Nota: item2.Nota}
-				Algebra_lineal = append(Algebra_lineal, item2)
 
-				tmp := Student_Curso{Estudiante: item, Curso: item2}
+			if item2.Curso == "Algebra lineal" {
+				tmp := Models.Student_Curso{Estudiante: item, Curso: item2}
 				Algebra_arr = append(Algebra_arr, tmp)
 
 			} else if item2.Curso == "Calculo diferencial" {
-				Calculo_diferencial = append(Calculo_diferencial, item2)
-
-				tmp := Student_Curso{Estudiante: item, Curso: item2}
+				tmp := Models.Student_Curso{Estudiante: item, Curso: item2}
 				Calculo_arr = append(Calculo_arr, tmp)
 
 			} else if item2.Curso == "POO" {
-				Poo = append(Poo, item2)
-				tmp := Student_Curso{Estudiante: item, Curso: item2}
+				tmp := Models.Student_Curso{Estudiante: item, Curso: item2}
 				Poo_arr = append(Poo_arr, tmp)
 
 			} else if item2.Curso == "CTD" {
-				Ctd = append(Ctd, item2)
-				tmp := Student_Curso{Estudiante: item, Curso: item2}
+				tmp := Models.Student_Curso{Estudiante: item, Curso: item2}
 				Ctd_arr = append(Ctd_arr, tmp)
 			}
 		}
 	}
 
-	// 10 estudiantes con notas mas bajas
+	// 10 estudiantes con notas mas bajas por curso
 	sort.SliceStable(Algebra_arr, func(i, j int) bool {
 		return Algebra_arr[i].Curso.Nota < Algebra_arr[j].Curso.Nota
 	})
@@ -145,35 +109,22 @@ func Algebra(writer http.ResponseWriter, resp *http.Request) {
 		return Ctd_arr[i].Curso.Nota < Ctd_arr[j].Curso.Nota
 	})
 
-	// promedios Cursos
-	type Promedios struct {
-		Nombre   string
-		Promedio float64
-	}
+	var curso_1_avg = Promedio_Curso_Student(Algebra_arr)
+	var curso_2_avg = Promedio_Curso_Student(Calculo_arr)
+	var curso_3_avg = Promedio_Curso_Student(Poo_arr)
+	var curso_4_avg = Promedio_Curso_Student(Ctd_arr)
 
-	var promedios []Promedios
-	var prome1 = Promedios{Nombre: Algebra_lineal[0].Curso, Promedio: Promedio_Curso(Algebra_lineal)}
-	var prome2 = Promedios{Nombre: Calculo_diferencial[0].Curso, Promedio: Promedio_Curso(Calculo_diferencial)}
-	var prome3 = Promedios{Nombre: Poo[0].Curso, Promedio: Promedio_Curso(Poo)}
-	var prome4 = Promedios{Nombre: Ctd[0].Curso, Promedio: Promedio_Curso(Ctd)}
-	promedios = append(promedios, prome1)
-	promedios = append(promedios, prome2)
-	promedios = append(promedios, prome3)
-	promedios = append(promedios, prome4)
-
-	type Data struct {
-		Data      []Student_Curso
-		Promedios []Promedios
-	}
-
-	// var enviar []Data
-	var enviar1 = Data{Data: Algebra_arr[:10], Promedios: promedios}
+	var response []JResponse
+	response = append(response, JResponse{Curso: Algebra_arr[0].Curso.Curso, Promedio: curso_1_avg, Estudiantes: Algebra_arr[:10]})
+	response = append(response, JResponse{Curso: Calculo_arr[0].Curso.Curso, Promedio: curso_2_avg, Estudiantes: Calculo_arr[:10]})
+	response = append(response, JResponse{Curso: Poo_arr[0].Curso.Curso, Promedio: curso_3_avg, Estudiantes: Poo_arr[:10]})
+	response = append(response, JResponse{Curso: Ctd_arr[0].Curso.Curso, Promedio: curso_4_avg, Estudiantes: Ctd_arr[:10]})
 
 	if err != nil {
 		fmt.Fprint(writer, "<h1>Página no encontrada<h1/>")
 		panic(err)
 	} else {
-		template.Execute(writer, enviar1) //renderizar html
+		template.Execute(writer, response) //renderizar html
 	}
 }
 

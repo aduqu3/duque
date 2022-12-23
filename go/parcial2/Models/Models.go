@@ -73,3 +73,9 @@ type Curso struct {
 	Curso string  `json:"curso"`
 	Nota  float64 `json:"nota"`
 }
+
+
+type Student_Curso struct {
+	Estudiante Dato
+	Curso      Curso
+}

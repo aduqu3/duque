@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: uvicorn main:app --host 0.0.0.0
+    restart: always
+    volumes:
+      - .:/code
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/etc/timezone:/etc/timezone:ro"
+    ports:
+      - 8008:8000
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/postgres
+      - TZ=America/Bogota
+    depends_on:
+      - db
+  
+  db:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - TZ=America/Bogota
+    ports:
+      - '5432:5432'
+    volumes: 
+      - simu_data:/var/lib/postgresql/data
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/etc/timezone:/etc/timezone:ro"
+    
+volumes:
+  simu_data:
+    # driver: local

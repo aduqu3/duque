@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, DateTime, Date
 # from sqlalchemy.sql import func
 from datetime import datetime, timezone
-from .database import Base
+from database import Base
 
 
 # logs

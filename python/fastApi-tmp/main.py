@@ -52,12 +52,11 @@ def add_fila(fila: Logs, db: Session = Depends(get_db), paradero: str = paradero
     db.commit()
     return log
 
-@app.post("/out_fila")
-def out_fila(fila: Logs, db: Session = Depends(get_db), paradero: str = paraderos):
+@app.post("/sale_bus")
+def sale_bus(fila: Logs, db: Session = Depends(get_db), paradero: str = paraderos):
     log = models.Logs()
     log.time = datetime.now()
-    log.cantidad = 1
-    log.evento = "Estudiante sale de la fila"
+    log.evento = "Sale bus con estudiantes"
     log.paradero = paradero
     db.add(log)
     db.commit()
@@ -73,15 +72,15 @@ def start_trayecto(fila: Logs, db: Session = Depends(get_db), paradero: str = pa
     db.commit()
     return log
 
-@app.post("/parada_trayecto_centro_u")
-def parada_trayecto_centro_u(fila: Logs, db: Session = Depends(get_db), paradero: str = paraderos):
-    log = models.Logs()
-    log.time = datetime.now()
-    log.evento = "Parada intermedia Centro a Universidad"
-    log.paradero = paradero
-    db.add(log)
-    db.commit()
-    return log
+# @app.post("/parada_trayecto_centro_u")
+# def parada_trayecto_centro_u(fila: Logs, db: Session = Depends(get_db), paradero: str = paraderos):
+#     log = models.Logs()
+#     log.time = datetime.now()
+#     log.evento = "Parada intermedia Centro a Universidad"
+#     log.paradero = paradero
+#     db.add(log)
+#     db.commit()
+#     return log
 
 @app.post("/finish_trayecto")
 def finish_trayecto(fila: Logs, db: Session = Depends(get_db), paradero: str = paraderos):
@@ -116,15 +115,15 @@ def baja_bus(fila: Logs, db: Session = Depends(get_db), paradero: str = paradero
     return log
 
 
-@app.post("/parada_trayecto_u_centro")
-def parada_trayecto_u_centro(fila: Logs, db: Session = Depends(get_db), paradero: str = paraderos):
-    log = models.Logs()
-    log.time = datetime.now()
-    log.evento = "Parada intermedia Centro a Universidad"
-    log.paradero = paradero
-    db.add(log)
-    db.commit()
-    return log
+# @app.post("/parada_trayecto_u_centro")
+# def parada_trayecto_u_centro(fila: Logs, db: Session = Depends(get_db), paradero: str = paraderos):
+#     log = models.Logs()
+#     log.time = datetime.now()
+#     log.evento = "Parada intermedia Centro a Universidad"
+#     log.paradero = paradero
+#     db.add(log)
+#     db.commit()
+#     return log
 
 # @app.post("/1/")
 # def create_fila_with_1(db: Session = Depends(get_db)):

@@ -1,0 +1,21 @@
+# Use postgres/example user/password credentials
+version: '3.8'
+
+services:
+  db:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=gorm
+      - POSTGRES_PASSWORD=gorm
+      - POSTGRES_DB=gorm
+      - TZ=America/Bogota
+    ports:
+      - '5432:5432'
+    volumes: 
+      - data_go:/var/lib/postgresql/data
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/etc/timezone:/etc/timezone:ro"
+
+volumes:
+  data_go:

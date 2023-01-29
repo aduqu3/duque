@@ -21,10 +21,27 @@ func SetupRoutes(app *fiber.App) {
 
 	// User
 	user := api.Group("/user")
-	user.Get("/:id", middleware.Protected(), handler.GetUser)
 	user.Post("/", handler.CreateUser)
+	user.Get("/:id", middleware.Protected(), handler.GetUser)
 	// user.Patch("/:id", middleware.Protected(), handler.UpdateUser)
-	user.Delete("/:id", middleware.Protected(), handler.DeleteUser)
+	// user.Delete("/:id", middleware.Protected(), handler.DeleteUser)
+	// user.Get("/address/:id", middleware.Protected(), handler.GetPreferredUserAddress)
+	user.Post("/address/", middleware.Protected(), handler.CreateUserAddress)
+
+	// Country
+	country := api.Group("/country")
+	country.Get("/", middleware.Protected(), handler.GetAllCountrys)
+	country.Get("/deparments/:id", middleware.Protected(), handler.GetCountryDepartments)
+
+	// Department
+	department := api.Group("/department")
+	department.Get("/", middleware.Protected(), handler.GetAllDepartments)
+	department.Get("/citys/:id", middleware.Protected(), handler.GetDepartmentCitys)
+
+	// City
+	city := api.Group("/city")
+	city.Get("/", middleware.Protected(), handler.GetAllCitys)
+	// city.Get("/:id", handler.GetProduct)
 
 	// Product
 	// product := api.Group("/product")

@@ -23,12 +23,17 @@ func ConnectDB() {
 	}
 
 	fmt.Println("Connection Opened to Database")
-	// DB.AutoMigrate(&model.User{}, &model.Product{})
-	// DB.AutoMigrate(&model.UserType{}, &model.User{})
+	// DB.AutoMigrate(
+	// 	&model.Country{}, &model.Department{}, &model.City{}, &model.Address{},
+	// 	&model.UserType{}, &model.User{}, &model.Pet{},
+	// 	&model.UserAddress{}, &model.UserPet{}, &model.PetVaccine{},
+	// )
 	DB.AutoMigrate(
-		&model.Country{}, &model.Department{}, &model.City{}, &model.Address{},
-		&model.UserType{}, &model.User{}, &model.Pet{},
-		&model.UserAddress{}, &model.UserPet{}, &model.PetVaccine{},
+		&model.Country{}, &model.Department{}, &model.City{},
+		&model.UserType{}, &model.User{}, &model.UserAddress{},
+		&model.Pet{}, &model.UserPet{}, &model.PetVaccine{},
 	)
+
+	// DB.Create(&model.UserType{Role: "normal"}) // init database !import!
 	fmt.Println("Database Migrated")
 }

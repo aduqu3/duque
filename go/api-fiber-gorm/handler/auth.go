@@ -72,18 +72,26 @@ func Login(c *fiber.Ctx) error {
 
 	identity := input.Identity
 	pass := input.Password
-	user, email, err := new(model.User), new(model.User), *new(error)
+	user := new(model.User)
+	email := new(model.User)
+	err := *new(error)
+
+	if identity == "" {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"status": "error", "message": "Error on email", "data": err})
+	}
 
 	if valid(identity) {
 		email, err = getUserByEmail(identity)
 		if err != nil {
 			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"status": "error", "message": "Error on email", "data": err})
 		}
+		user = nil
 	} else {
 		user, err = getUserByUsername(identity)
 		if err != nil {
 			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"status": "error", "message": "Error on username", "data": err})
 		}
+		email = nil
 	}
 
 	if email == nil && user == nil {
@@ -109,7 +117,7 @@ func Login(c *fiber.Ctx) error {
 	}
 
 	if !CheckPasswordHash(pass, ud.Password) {
-		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"status": "error", "message": "Invalid password", "data": nil})
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"status": "error", "message": "Invalid password or username", "data": nil})
 	}
 
 	// Create the Claims

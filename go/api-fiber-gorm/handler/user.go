@@ -3,7 +3,6 @@ package handler
 import (
 	"api-fiber-gorm/database"
 	"api-fiber-gorm/model"
-	"fmt"
 	"strconv"
 
 	"github.com/gofiber/fiber/v2"
@@ -61,8 +60,11 @@ func GetUser(c *fiber.Ctx) error {
 // CreateUser new user
 func CreateUser(c *fiber.Ctx) error {
 	type NewUser struct {
-		Username string `json:"username"`
-		Email    string `json:"email"`
+		Username   string `json:"username"`
+		Email      string `json:"email"`
+		FirstName  string `json:"firstname"`
+		LastName   string `json:"lastname"`
+		UserTypeId int
 		// Password string `json: "password"`
 	}
 
@@ -73,8 +75,6 @@ func CreateUser(c *fiber.Ctx) error {
 
 	}
 
-	fmt.Println(user.Password)
-
 	hash, err := hashPassword(user.Password)
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Couldn't hash password", "data": err})
@@ -82,13 +82,22 @@ func CreateUser(c *fiber.Ctx) error {
 	}
 
 	user.Password = hash
+
+	// if usertype not defined is normal user
+	// if user.UserTypeId == 0 {
+	// 	user.UserTypeId = 1
+	// }
+
 	if err := db.Create(&user).Error; err != nil {
 		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Couldn't create user", "data": err})
 	}
 
 	newUser := NewUser{
-		Email:    user.Email,
-		Username: user.Username,
+		Email:      user.Email,
+		Username:   user.Username,
+		FirstName:  user.FirstName,
+		LastName:   user.LastName,
+		UserTypeId: user.UserTypeId,
 	}
 
 	return c.JSON(fiber.Map{"status": "success", "message": "Created user", "data": newUser})
@@ -121,32 +130,32 @@ func CreateUser(c *fiber.Ctx) error {
 // }
 
 // DeleteUser delete user
-func DeleteUser(c *fiber.Ctx) error {
-	type PasswordInput struct {
-		Password string `json:"password"`
-	}
-	var pi PasswordInput
-	if err := c.BodyParser(&pi); err != nil {
-		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Review your input", "data": err})
-	}
-	id := c.Params("id")
-	token := c.Locals("user").(*jwt.Token)
+// func DeleteUser(c *fiber.Ctx) error {
+// 	type PasswordInput struct {
+// 		Password string `json:"password"`
+// 	}
+// 	var pi PasswordInput
+// 	if err := c.BodyParser(&pi); err != nil {
+// 		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Review your input", "data": err})
+// 	}
+// 	id := c.Params("id")
+// 	token := c.Locals("user").(*jwt.Token)
 
-	if !validToken(token, id) {
-		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Invalid token id", "data": nil})
+// 	if !validToken(token, id) {
+// 		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Invalid token id", "data": nil})
 
-	}
+// 	}
 
-	if !validUser(id, pi.Password) {
-		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Not valid user", "data": nil})
+// 	if !validUser(id, pi.Password) {
+// 		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Not valid user", "data": nil})
 
-	}
+// 	}
 
-	db := database.DB
-	var user model.User
+// 	db := database.DB
+// 	var user model.User
 
-	db.First(&user, id)
+// 	db.First(&user, id)
 
-	db.Delete(&user)
-	return c.JSON(fiber.Map{"status": "success", "message": "User successfully deleted", "data": nil})
-}
+// 	db.Delete(&user)
+// 	return c.JSON(fiber.Map{"status": "success", "message": "User successfully deleted", "data": nil})
+// }

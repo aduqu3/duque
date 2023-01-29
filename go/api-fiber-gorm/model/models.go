@@ -15,32 +15,17 @@ type Country struct {
 // Department struct
 type Department struct {
 	gorm.Model
-	Department string  `gorm:"uniqueIndex; not null" json:"department"`
+	Department string  `gorm:"not null" json:"department"`
+	CountryId  int     `json:"country_id"`
 	Country    Country `gorm:"foreignKey:CountryId; constraint:OnUpdate:CASCADE,OnDelete:SET NULL; not null"`
-	CountryId  uint
 }
 
 // City struct
 type City struct {
 	gorm.Model
-	City         string     `gorm:"uniqueIndex; not null" json:"city"`
+	City         string     `gorm:"not null" json:"city"`
+	DepartmentId int        `json:"department_id"`
 	Department   Department `gorm:"foreignKey:DepartmentId; constraint:OnUpdate:CASCADE,OnDelete:SET NULL; not null"`
-	DepartmentId uint
-}
-
-// Address struct
-type Address struct {
-	gorm.Model
-	Street       string  `gorm:"not null" json:"street"`
-	Description  string  `json:"description"`
-	Country      Country `gorm:"foreignKey:CountryId; constraint:OnUpdate:CASCADE,OnDelete:SET NULL; not null"`
-	CountryId    uint
-	Department   Department `gorm:"foreignKey:DepartmentId; constraint:OnUpdate:CASCADE,OnDelete:SET NULL; not null"`
-	DepartmentId uint
-	City         City `gorm:"foreignKey:CityId; constraint:OnUpdate:CASCADE,OnDelete:SET NULL; not null"`
-	CityId       uint
-	ZipCode      string `json:"zip_code"`
-	Phone        string `json:"phone"`
 }
 
 // UserType struct
@@ -55,20 +40,40 @@ type User struct {
 	Username   string   `gorm:"uniqueIndex; not null" json:"username"`
 	Email      string   `gorm:"uniqueIndex; not null" json:"email"`
 	Password   string   `gorm:"not null" json:"password"`
-	FirstName  string   `json:"fistname"`
+	FirstName  string   `json:"firstname"`
 	LastName   string   `json:"lastname"`
-	UserType   UserType `gorm:"foreignKey:UserTypeId; constraint:OnUpdate:CASCADE,OnDelete:SET NULL; default:1"`
-	UserTypeId uint
+	UserTypeId int      `gorm:"default:1" json:"user_type_id"`
+	UserType   UserType `gorm:"foreignKey:UserTypeId; constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+}
+
+// Address struct
+type UserAddress struct {
+	gorm.Model
+	UserId       int        `json:"user_id"`
+	Name         string     `gorm:"not null" json:"name"`
+	CountryId    int        `json:"country_id"`
+	DepartmentId int        `json:"department_id"`
+	CityId       int        `json:"city_id"`
+	ZipCode      string     `json:"zip_code"`
+	Details      string     `gorm:"not null" json:"details"`
+	OtherDetails string     `json:"other_details"`
+	Phone        string     `json:"phone"`
+	Country      Country    `gorm:"foreignKey:CountryId; constraint:OnUpdate:CASCADE,OnDelete:SET NULL; not null"`
+	Department   Department `gorm:"foreignKey:DepartmentId; constraint:OnUpdate:CASCADE,OnDelete:SET NULL; not null"`
+	City         City       `gorm:"foreignKey:CityId; constraint:OnUpdate:CASCADE,OnDelete:SET NULL; not null"`
+	User         User       `gorm:"foreignKey:UserId; constraint:OnUpdate:CASCADE,OnDelete:SET NULL; not null"`
+	Preferred    bool       `gorm:"default:false" json:"preferred"`
 }
 
 // UserAdress struct
-type UserAddress struct {
-	gorm.Model
-	User      User `gorm:"foreignKey:UserId; constraint:OnUpdate:CASCADE,OnDelete:SET NULL; not null"`
-	UserId    uint
-	Address   Address `gorm:"foreignKey:AddressId; constraint:OnUpdate:CASCADE,OnDelete:SET NULL; not null"`
-	AddressId uint
-}
+// type UserAddress struct {
+// 	gorm.Model
+// 	UserId    int
+// 	AddressId int
+// 	Preferred bool    `gorm:"default:false" json:"preferred"`
+// 	User      User    `gorm:"foreignKey:UserId; constraint:OnUpdate:CASCADE,OnDelete:SET NULL; not null"`
+// 	Address   Address `gorm:"foreignKey:AddressId; constraint:OnUpdate:CASCADE,OnDelete:SET NULL; not null"`
+// }
 
 // Pet struct
 type Pet struct {
@@ -84,11 +89,11 @@ type Pet struct {
 // UserPet struct // transfer pet
 type UserPet struct {
 	gorm.Model
-	User   User `gorm:"foreignKey:UserId; constraint:OnUpdate:CASCADE,OnDelete:SET NULL; not null"`
-	UserId uint
-	Pet    Pet `gorm:"foreignKey:PetId; constraint:OnUpdate:CASCADE,OnDelete:SET NULL; not null"`
-	PetId  uint
+	UserId int  `json:"user_id"`
+	PetId  int  `json:"pet_id"`
 	State  bool `gorm:"default:true" json:"state"`
+	User   User `gorm:"foreignKey:UserId; constraint:OnUpdate:CASCADE,OnDelete:SET NULL; not null"`
+	Pet    Pet  `gorm:"foreignKey:PetId; constraint:OnUpdate:CASCADE,OnDelete:SET NULL; not null"`
 	// Visited_at time.Time `json:"registered"`
 }
 
@@ -98,8 +103,8 @@ type PetVaccine struct {
 	Date       time.Time `json:"date"`
 	Vaccine    string    `gorm:"not null" json:"vaccine"`
 	Vaccinator string    `json:"vaccinator"`
+	PetId      int       `json:"pet_id"`
 	Pet        Pet       `gorm:"foreignKey:PetId; constraint:OnUpdate:CASCADE,OnDelete:SET NULL; not null"`
-	PetId      uint
 }
 
 // User struct

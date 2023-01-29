@@ -18,6 +18,19 @@ func GetAllCountrys() ([]model.Country, error) {
 	return countrys, nil
 }
 
+// GetCountry get country by id
+func GetCountry(id int) (model.Country, error) {
+	db := database.DB
+	var country model.Country
+
+	err := db.Find(&country, id).Error
+	if err != nil {
+		return country, err
+	}
+	
+	return country, nil
+}
+
 // GetCountryDepartments query country
 func GetCountryDepartments(id int) ([]model.Department, error) {
 	departments, err := GetAllDepartments()

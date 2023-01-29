@@ -16,3 +16,16 @@ func GetAllCitys() ([]model.City, error) {
 	}
 	return citys, nil
 }
+
+// GetCity get city by id
+func GetCity(id int) (model.City, error) {
+	db := database.DB
+	var city model.City
+
+	err := db.Find(&city, id).Error
+	if err != nil {
+		return city, err
+	}
+
+	return city, nil
+}

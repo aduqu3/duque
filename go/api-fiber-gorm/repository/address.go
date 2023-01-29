@@ -3,97 +3,64 @@ package repository
 import (
 	"api-fiber-gorm/database"
 	"api-fiber-gorm/model"
-	"fmt"
+
+	"gorm.io/gorm"
 )
 
 // GetUserAddress get preferred useraddress
-// func GetPreferredUserAddress(id) error {
-// 	// user_id :=  // user id
-// 	user_id, err := strconv.Atoi(c.Params("id"))
+func GetPreferredUserAddress(id int) (model.UserAddress, error) {
+	db := database.DB
+	var u_address model.UserAddress
 
-// 	if err != nil {
-// 		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Not found id", "data": nil})
-// 	}
+	result := db.Where(&u_address, model.UserAddress{UserId: id, Preferred: true}).Find(&u_address)
 
-// 	db := database.DB
-// 	var user_address model.UserAddress
-// 	result := db.Where(&user_address, model.UserAddress{UserId: user_id, Preferred: true}).Find(&user_address)
+	if result.Error != nil || result.RowsAffected == 0 {
+		return u_address, gorm.ErrEmptySlice
+	}
 
-// 	fmt.Println(result)
-// 	fmt.Println(user_address.User.FirstName)
+	var err error
+	u_address.City, err = GetCity(u_address.CityId)
+	if err != nil {
+		return u_address, err
+	}
 
-// 	if result.Error != nil {
-// 		fmt.Println("entra al error")
-// 		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "No preferred user address found with ID", "data": nil})
-// 	}
-// 	// user.Password = "****"
-// 	return c.JSON(fiber.Map{"status": "success", "message": "Preferred User Address found", "data": user_address})
-// }
+	u_address.City.Department, err = GetDepartment(u_address.City.DepartmentId)
+	if err != nil {
+		return u_address, err
+	}
+
+	u_address.City.Department.Country, err = GetCountry(u_address.City.Department.CountryId)
+	if err != nil {
+		return u_address, err
+	}
+
+	return u_address, nil
+}
 
 // CreateUserAddress new address
-func CreateUserAddress(u_address *model.UserAddress) (map[string]interface{}, error) {
-
-	type NewUserAddress struct {
-		UserId       int
-		FirstName    string `json:"first_name"`
-		LastName     string `json:"last_name"`
-		Name         string `json:"name"`
-		Country      string `json:"county"`
-		Department   string `json:"department"`
-		City         string `json:"city"`
-		ZipCode      string `json:"zip_code"`
-		Details      string `json:"details"`
-		OtherDetails string `json:"other_details"`
-		Phone        string `json:"phone"`
-		Preferred    bool   `json:"preferred"`
-	}
-
-	// fmt.Println(u_address)
-
+func CreateUserAddress(u_address model.UserAddress) (model.UserAddress, error) {
 	db := database.DB
 	if err := db.Create(&u_address).Error; err != nil {
-		return nil, nil
+		return u_address, err
 	}
 
-	var city model.City
-	city.ID = uint(u_address.CityId)
-	db.Find(&city, city.ID)
-	u_address.City = city
-
-	fmt.Println(u_address.City)
-	fmt.Println("CPAS")
-	// get city
-	// get department
-	// get country
-	// get user
-
-	
-
-	// hash, err := hashPassword(user.Password)
-	// if err != nil {
-	// 	return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Couldn't hash password", "data": err})
-
-	// }
-
-	// user.Password = hash
-	// if err := db.Create(&user).Error; err != nil {
-	// 	return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Couldn't create user", "data": err})
-	// }
-
-	newUserAddress := map[string]interface{}{
-		"UserId":       u_address.UserId,
-		"Name":         "",
-		"Country":      "1",
-		"Department":   "2",
-		"City":         "2",
-		"ZipCode":      "",
-		"Details":      "",
-		"OtherDetails": "",
-		"Phone":        "",
-		"Preferred":    true,
+	var err error
+	u_address.City, err = GetCity(u_address.CityId)
+	if err != nil {
+		return u_address, err
 	}
 
-	return newUserAddress, nil
+	u_address.City.Department, err = GetDepartment(u_address.City.DepartmentId)
+	if err != nil {
+		return u_address, err
+	}
+
+	u_address.City.Department.Country, err = GetCountry(u_address.City.Department.CountryId)
+	if err != nil {
+		return u_address, err
+	}
+
+	return u_address, nil
 }
 
 // UpdateUser update user

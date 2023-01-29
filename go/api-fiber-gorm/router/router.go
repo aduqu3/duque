@@ -25,7 +25,7 @@ func SetupRoutes(app *fiber.App) {
 	user.Get("/:id", middleware.Protected(), handler.GetUser)
 	// user.Patch("/:id", middleware.Protected(), handler.UpdateUser)
 	// user.Delete("/:id", middleware.Protected(), handler.DeleteUser)
-	// user.Get("/address/:id", middleware.Protected(), handler.GetPreferredUserAddress)
+	user.Get("/address/:id", middleware.Protected(), handler.GetPreferredUserAddress)
 	user.Post("/address/", middleware.Protected(), handler.CreateUserAddress)
 
 	// Country
@@ -42,6 +42,8 @@ func SetupRoutes(app *fiber.App) {
 	city := api.Group("/city")
 	city.Get("/", middleware.Protected(), handler.GetAllCitys)
 	// city.Get("/:id", handler.GetProduct)
+
+	
 
 	// Product
 	// product := api.Group("/product")

@@ -2,6 +2,7 @@ package handler
 
 import (
 	"api-fiber-taller/repository"
+	"strconv"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -26,8 +27,8 @@ func GetMejorEstudiante(c *fiber.Ctx) error {
 }
 
 func GetMoreOldEstudiante(c *fiber.Ctx) error {
-
-	old, err := repository.GetMoreOldEstudiante()
+	gender := c.Params("gender")
+	old, err := repository.GetMoreOldEstudiante(gender)
 	if err != nil {
 		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Not found resource", "data": nil})
 	}
@@ -35,10 +36,25 @@ func GetMoreOldEstudiante(c *fiber.Ctx) error {
 }
 
 func GetCursoAvg(c *fiber.Ctx) error {
-
-	avg_c, err := repository.GetCursoAvg()
+	curso_id, err := strconv.Atoi(c.Params("id"))
+	if err != nil {
+		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Not found resource", "data": nil})
+	}
+	avg_c, err := repository.GetCursoAvg(curso_id)
 	if err != nil {
 		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Not found resource", "data": nil})
 	}
 	return c.JSON(fiber.Map{"status": "success", "message": "Found old persons", "data": avg_c})
+}
+
+func GetWorseEstudianteCurso(c *fiber.Ctx) error {
+	curso_id, err := strconv.Atoi(c.Params("id"))
+	if err != nil {
+		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Not found resource", "data": nil})
+	}
+	estudiantes, err := repository.GetWorseEstudianteCurso(curso_id)
+	if err != nil {
+		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Not found resource", "data": nil})
+	}
+	return c.JSON(fiber.Map{"status": "success", "message": "Found old persons", "data": estudiantes})
 }

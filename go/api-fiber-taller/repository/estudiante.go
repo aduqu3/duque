@@ -3,6 +3,7 @@ package repository
 import (
 	"api-fiber-taller/database"
 	"api-fiber-taller/model"
+	"sort"
 )
 
 // GetAllEstudiantes query all estudiantes
@@ -17,6 +18,19 @@ func GetAllEstudiantes() ([]model.Estudiante, error) {
 	}
 
 	return estudiantes, nil
+}
+
+func GetEstudianteByID(id int) (model.Estudiante, error) {
+
+	db := database.DB
+	var estudiante model.Estudiante
+	result := db.Find(&estudiante, id)
+
+	if result.Error != nil {
+		return estudiante, result.Error
+	}
+
+	return estudiante, nil
 }
 
 func AvgCurso(cursos []model.EstudianteCurso) float64 {
@@ -79,64 +93,105 @@ func GetMejorEstudiante() (MejorEstudiante, error) {
 	return response, nil
 }
 
-func GetMoreOldEstudiante() ([]model.Estudiante, error) {
+func GetMoreOldEstudiante(gender string) (model.Estudiante, error) {
 	var est []model.Estudiante
 	var err error
 	est, err = GetAllEstudiantes()
 
 	if err != nil {
-		return est, err
+		return model.Estudiante{}, err
 	}
 
-	var maximo_mujer = 0
-	var index_mujer int
-
-	var maximo_hombre = 0
-	var index_hombre int
+	var maximo = 0
+	var index int
 
 	for i, item := range est {
-		if item.Gender == "female" {
+		if item.Gender == gender {
 			tmp2 := item.Edad
-			if tmp2 > maximo_mujer {
-				maximo_mujer = tmp2
-				index_mujer = i
-			}
-		} else {
-			tmp2 := item.Edad
-			if tmp2 > maximo_hombre {
-				maximo_hombre = tmp2
-				index_hombre = i
+			if tmp2 > maximo {
+				maximo = tmp2
+				index = i
 			}
 		}
 	}
 
-	var old []model.Estudiante
-	old = append(old, est[index_hombre])
-	old = append(old, est[index_mujer])
+	var old model.Estudiante
+	old = est[index]
 
 	return old, nil
 }
 
-func GetCursoAvg() ([]model.EstudianteCurso, error) {
-	var cursos []model.Curso
+// func GetCursoAvg() ([]model.EstudianteCurso, error) {
+// 	var cursos []model.Curso
+// 	var err error
+// 	cursos, err = GetAllCursos()
+// 	if err != nil {
+// 		return nil, err
+// 	}
+
+// 	var avg_curso []model.EstudianteCurso
+// 	for _, item := range cursos {
+// 		e_c, err := GetEstudianteCursoByCursoID(int(item.ID))
+// 		if err != nil {
+// 			return nil, err
+// 		}
+// 		var avg model.EstudianteCurso
+// 		avg.CursoId = int(item.ID)
+// 		avg.Curso.Curso = item.Curso
+// 		avg.Nota = AvgCurso(e_c)
+// 		avg_curso = append(avg_curso, avg)
+// 	}
+
+// 	return avg_curso, nil
+// }
+
+func GetCursoAvg(id int) (float64, error) {
+	// var cursos []model.Curso
 	var err error
-	cursos, err = GetAllCursos()
+	// cursos, err = GetAllCursos()
 	if err != nil {
-		return nil, err
+		return 0, err
 	}
 
-	var avg_curso []model.EstudianteCurso
-	for _, item := range cursos {
-		e_c, err := GetEstudianteCursoByCursoID(int(item.ID))
-		if err != nil {
-			return nil, err
-		}
-		var avg model.EstudianteCurso
-		avg.CursoId = int(item.ID)
-		avg.Curso.Curso = item.Curso
-		avg.Nota = AvgCurso(e_c)
-		avg_curso = append(avg_curso, avg)
+	// var avg_curso []model.EstudianteCurso
+	// for _, item := range cursos {
+	e_c, err := GetEstudianteCursoByCursoID(int(id))
+	if err != nil {
+		return 0, err
 	}
+	// var avg model.EstudianteCurso
+	// avg.CursoId = int(id)
+	// avg.Curso =
+	avg_curso := AvgCurso(e_c)
+	// avg_curso = append(avg_curso, avg)
+	// }
 
 	return avg_curso, nil
+}
+
+func GetWorseEstudianteCurso(id int) ([]model.EstudianteCurso, error) {
+	// var est []model.Estudiante
+	var err error
+	// est, err = GetAllEstudiantes()
+
+	// if err != nil {
+	// 	return model.EstudianteCurso{}, err
+	// }
+
+	var e_c []model.EstudianteCurso
+	e_c, err = GetEstudianteCursoByCursoID(id)
+
+	if err != nil {
+		return nil, err 
+	}
+
+	sort.SliceStable(e_c, func(i, j int) bool {
+		return e_c[i].Nota < e_c[j].Nota
+	})
+
+	for i, item := range e_c {
+		e_c[i].Estudiante, _ = GetEstudianteByID(item.EstudianteId)
+	}
+
+	return e_c, nil
 }

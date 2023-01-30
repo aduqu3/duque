@@ -13,8 +13,9 @@ func SetupRoutes(app *fiber.App) {
 	api := app.Group("/api", logger.New())
 	api.Get("/", handler.Hello)
 	api.Get("/mejor/", handler.GetMejorEstudiante)
-	api.Get("/old/", handler.GetMoreOldEstudiante)
-	api.Get("/avg/", handler.GetCursoAvg)
+	api.Get("/old/:gender", handler.GetMoreOldEstudiante)
+	api.Get("/avg/:id", handler.GetCursoAvg)
+	api.Get("/worse/:id", handler.GetWorseEstudianteCurso)
 
 	// // Auth
 	// auth := api.Group("/auth")

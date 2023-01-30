@@ -47,7 +47,6 @@ func main() {
 	// db.Create(&Student{Cod: 1, Name: "Andres", LastName: "Duque"})
 	// db.Create(&Student{Cod: 2, Name: "Alejandro", Visited_at: time.Now()})
 
-
 	// eliminar todo deja logs
 	// db.Where("1 = 1").Delete(&Student{})
 
@@ -56,7 +55,6 @@ func main() {
 
 	// eliminar todo deja logs
 	// db.Session(&gorm.Session{AllowGlobalUpdate: true}).Delete(&Student{})
-
 
 	// consultas
 	var stud1, stud2 Student
@@ -71,5 +69,5 @@ func main() {
 	db.Model(&stud1).Update("name", "Juan2")
 	db.Model(&stud2).Updates(Student{Cod: 4, Name: "Margarita4"})
 
-	// delte 
+	// delte
 }

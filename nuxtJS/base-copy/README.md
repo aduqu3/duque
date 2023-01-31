@@ -1,4 +1,5 @@
 # base
+[![Netlify Status](https://api.netlify.com/api/v1/badges/1d09ca72-b0f3-45e1-8f1e-ac5ce04eba5a/deploy-status)](https://base-nuxt-loducode.netlify.app)
 
 ## Documentation
 - [Envs](docs/envs.md) for create enviroment local

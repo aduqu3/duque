@@ -1,11 +1,3 @@
-python/video to images/data/*
-python/video to images/data_img/*
-python/video to images/env/*
-python/video to images/labs/*
-
-*.pyc
-*.pyo
-
 # Created by .ignore support plugin (hsz.mobi)
 ### Node template
 # Logs

@@ -53,4 +53,12 @@ export default {
   css: [
     '@/assets/css/main.css',
   ],
+
+  tailwindcss: {
+    // Options
+  },
+  
+  server: {
+    host: "0.0.0.0"
+  },
 }

@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import estudiantes from '/api/estudiante';
+import api from '/api/api';
 export default {
   name: "BetsStudentInfo",
   data() {
@@ -40,15 +40,9 @@ export default {
   , methods: {
     async person() {
       try {
-
-        // var res = await $axios.get("http://127.0.0.1:8000/api/mejor").then((resp => {
-        //     return resp.data
-        // }))
-
-        var res = await estudiantes.get_best_estudiantes()
+        var res = await api.get_best_estudiantes()
         //   console.log(res)
         this.moduls_ = (res)
-        //   return {moduls_}
       } catch (err) {
         console.log(err)
       }

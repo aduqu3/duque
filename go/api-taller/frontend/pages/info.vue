@@ -9,8 +9,8 @@
   </template>
   
   <script>
-  import BetsStudent from "~/components/BetsStudent";
-  import CourseAvg from "~/components/CourseAvg";
+  import BetsStudent from "../components/Student/BetsStudent.vue";
+  import CourseAvg from "../components/courses/CourseAvg.vue";
   export default {
     name: "Inf",
     components: {BetsStudent, CourseAvg}

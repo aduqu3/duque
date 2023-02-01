@@ -6,23 +6,20 @@
         <li>
           <nuxt-link exact to="/">Home</nuxt-link>
         </li>
-        <li v-for="(item) in courses_ " :key="item.key" class="text-red-500 mt-4">
-
-          <!-- <nuxt-link v-if="item.curso.id != ''" to="/course"> -->
-          <!-- <template v-if="item.curso"> -->
-          <course-detail :curso="item"></course-detail>
-          <!-- </template> -->
-
-          <!-- </nuxt-link> -->
-
-          <!-- <nuxt-link v-if="item.curso != ''" to="/course">{{ item.curso }}</nuxt-link> -->
-
+        <li>
+          <nuxt-link exact to="/courses">Cursos</nuxt-link>
         </li>
         <li>
-          <nuxt-link to="/women">Women</nuxt-link>
+          <nuxt-link exact to="/student/age_female">Mujer con mayor edad</nuxt-link>
         </li>
         <li>
-          <nuxt-link to="/men">Men</nuxt-link>
+          <nuxt-link exact to="/student/age_male">Hombre con Mayor edad</nuxt-link>
+        </li>
+        <li>
+          <nuxt-link exact to="/student/best">Mejor Estudiante</nuxt-link>
+        </li>
+        <li>
+          <nuxt-link exact to="/info">Pruebas</nuxt-link>
         </li>
       </ul>
     </nav>
@@ -30,36 +27,8 @@
 </template>
 
 <script>
-import estudiantes from '/api/estudiante';
-import CourseDetail from '../CourseDetail.vue';
-// import CoursePage from '../../pages/course.vue'
 export default {
   name: "NavBar",
-  components: {
-    CourseDetail
-  },
-  props: {
-    name: String,
-  },
-  data: () => ({
-    errors: [],
-    courses_: []
-  }),
-  created() {
-    this.courses();
-  }
-  , methods: {
-    async courses() {
-      try {
-        var res = await estudiantes.get_courses()
-        console.log(res)
-        this.courses_ = (res)
-        //   return {moduls_}
-      } catch (err) {
-        console.log(err)
-      }
-    }
-  }
 };
 </script>
 

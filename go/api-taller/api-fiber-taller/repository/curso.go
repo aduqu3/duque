@@ -32,3 +32,12 @@ func GetCurso(id int) (model.Curso, error) {
 
 	return curso, nil
 }
+
+// CreateUserAddress new address
+func CreateCourse(u_address model.Curso) (model.Curso, error) {
+	db := database.DB
+	if err := db.Create(&u_address).Error; err != nil {
+		return u_address, err
+	}
+	return u_address, nil
+}

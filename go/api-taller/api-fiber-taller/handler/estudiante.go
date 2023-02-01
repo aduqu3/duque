@@ -47,14 +47,24 @@ func GetCursoAvg(c *fiber.Ctx) error {
 	return c.JSON(fiber.Map{"status": "success", "message": "Found old persons", "data": avg_c})
 }
 
-func GetWorseEstudianteCurso(c *fiber.Ctx) error {
+func GetLowEstudianteCurso(c *fiber.Ctx) error {
 	curso_id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Not found resource", "data": nil})
 	}
-	estudiantes, err := repository.GetWorseEstudianteCurso(curso_id)
+	estudiantes, err := repository.GetLowEstudianteCurso(curso_id)
 	if err != nil {
 		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Not found resource", "data": nil})
 	}
 	return c.JSON(fiber.Map{"status": "success", "message": "Found old persons", "data": estudiantes})
+}
+
+// GetAllCourse
+func GetAllCourse(c *fiber.Ctx) error {
+
+	course, err := repository.GetAllCursos()
+	if err != nil {
+		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Not found resource", "data": nil})
+	}
+	return c.JSON(fiber.Map{"status": "success", "message": "All courses", "data": course})
 }

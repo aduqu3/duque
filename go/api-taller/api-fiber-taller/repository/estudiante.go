@@ -169,7 +169,7 @@ func GetCursoAvg(id int) (float64, error) {
 	return avg_curso, nil
 }
 
-func GetWorseEstudianteCurso(id int) ([]model.EstudianteCurso, error) {
+func GetLowEstudianteCurso(id int) ([]model.EstudianteCurso, error) {
 	// var est []model.Estudiante
 	var err error
 	// est, err = GetAllEstudiantes()
@@ -182,7 +182,7 @@ func GetWorseEstudianteCurso(id int) ([]model.EstudianteCurso, error) {
 	e_c, err = GetEstudianteCursoByCursoID(id)
 
 	if err != nil {
-		return nil, err 
+		return nil, err
 	}
 
 	sort.SliceStable(e_c, func(i, j int) bool {

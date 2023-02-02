@@ -13,7 +13,8 @@
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.13.6",
-    "bootstrap-vue": "^2.23.1",
+    "bootstrap": "^4.6.2",
+    "bootstrap-vue": "^2.22.0",
     "core-js": "^3.25.3",
     "nuxt": "^2.15.8",
     "vue": "^2.7.10",
@@ -21,9 +22,7 @@
     "vue-template-compiler": "^2.7.10"
   },
   "devDependencies": {
-    "autoprefixer": "^10.4.13",
     "eslint-config-prettier": "^8.5.0",
-    "postcss": "^8.4.21",
     "prettier": "^2.7.1"
   }
 }

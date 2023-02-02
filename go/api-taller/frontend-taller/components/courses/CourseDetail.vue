@@ -1,5 +1,5 @@
 <template>
-  <div v-if="nota">
+  <div>
     <h1 class="temporal">
       <strong>{{ curso.curso }}</strong>
     </h1>
@@ -37,6 +37,6 @@ export default {
 
 <style scoped>
 h1{
-  color:blue
+  color:green
 }
 </style>

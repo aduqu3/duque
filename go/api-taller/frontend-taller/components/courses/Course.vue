@@ -1,6 +1,6 @@
 
 <template>
-  <div>
+  <div style="display: grid; justify-content: center;">
     <div v-for="(item) in courses_" :key="item.key">
       <course-detail :curso="item"></course-detail>
       <course-low-score :curso="item"></course-low-score>

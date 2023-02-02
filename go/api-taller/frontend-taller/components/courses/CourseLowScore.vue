@@ -1,7 +1,6 @@
 <template>
   <div v-if="curso.curso">
-
-    <table class="table">
+    <table class="styled-table">
       <thead>
         <tr>
           <th scope="col">Estudiante</th>
@@ -47,5 +46,32 @@ export default {
 </script>
 
 <style scoped>
+.styled-table {
+  border-collapse: collapse;
+  margin: 25px 0;
+  font-size: 0.9em;
+  font-family: sans-serif;
+  min-width: 400px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
 
+.styled-table thead tr {
+  background-color: #009879;
+  color: #ffffff;
+  text-align: left;
+}
+
+.styled-table thead tr {
+  background-color: #009879;
+  color: #ffffff;
+  text-align: left;
+}
+
+.styled-table tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
 </style>

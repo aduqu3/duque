@@ -4,7 +4,7 @@
     <div>
       <NavBar></NavBar>  
     </div> 
-    <div>
+    <div style="display: grid; justify-content: center;">
       <old-gender-student data="male"></old-gender-student>
     </div>
   </div>

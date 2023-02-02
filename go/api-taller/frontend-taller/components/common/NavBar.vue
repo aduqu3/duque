@@ -1,6 +1,6 @@
 
 <template>
-  <header>
+  <div style="display: grid; justify-content: center;">
     <nav>
       <ul>
         <li>
@@ -23,7 +23,7 @@
         </li>
       </ul>
     </nav>
-  </header>
+  </div>
 </template>
 
 <script>
@@ -33,58 +33,71 @@ export default {
 </script>
 
 <style scoped>
-.navarea {
-  overflow: hidden;
-}
-
-.capsule {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-nav {
-  width: 100vw;
-  height: 60px;
-  background: white;
-}
-
-ul {
-  padding-left: 0;
-  display: flex;
-  list-style: none outside none;
-  justify-content: center;
-  align-items: center;
+li {
+  display: inline;
 }
 
 li {
-  padding: 0 50px;
+  float: left;
 }
 
-a,
-a:visited,
-a:active {
-  text-decoration: none;
-  color: black;
+a {
+  display: block;
+  padding: 8px;
+  background-color: #04AA6D;
+  
+}
+ul {
+  background-color: #04AA6D;
+;
+}
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+ul {
+  position: -webkit-sticky; /* Safari */
+  position: sticky;
+  top: 0;
+}
+ul {
+  border: 1px solid #e7e7e7;
+  background-color: #f3f3f3;
 }
 
-.cartitem {
-  position: relative;
-  float: right;
+li a {
+  color: #666;
 }
 
-.cartcount {
-  font-family: 'Barlow', sans-serif;
-  position: absolute;
-  background: #ff2211;
+li {
+  float: left;
+}
+
+li a {
+  display: block;
   color: white;
   text-align: center;
-  padding-top: 4px;
-  width: 20px;
-  height: 20px;
-  font-size: 10px;
-  margin: -5px 0 0 20px;
-  border-radius: 1000px;
-  font-weight: 700;
+  padding: 14px 16px;
+  text-decoration: none;
 }
+
+/* Change the link color to #111 (black) on hover */
+li a:hover {
+  background-color: #111;
+}
+
+.active {
+  background-color: #04AA6D;
+}
+li {
+  border-right: 1px solid #bbb;
+}
+
+li:last-child {
+  border-right: none;
+}
+
 </style>

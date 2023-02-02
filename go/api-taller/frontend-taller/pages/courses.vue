@@ -1,12 +1,11 @@
-
 <template>
   <div>
     <div>
-      <NavBar></NavBar>  
-    </div> 
+      <NavBar></NavBar>
+    </div>
     <div>
       <Course></Course>
-    </div> 
+    </div>
   </div>
 </template>
 
@@ -22,4 +21,5 @@ export default {
 </script>
 
 <style scoped>
+
 </style>

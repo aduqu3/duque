@@ -18,7 +18,7 @@ func CreateCourse(c *fiber.Ctx) error {
 	u_address, err := repository.CreateCourse(*u_a)
 
 	if err != nil {
-		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Couldn't create user address", "data": err})
+		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Couldn't create course", "data": err})
 	}
 
 	return c.JSON(fiber.Map{"status": "success", "message": "Created course", "data": u_address})

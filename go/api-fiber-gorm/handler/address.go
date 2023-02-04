@@ -21,6 +21,7 @@ func GetPreferredUserAddress(c *fiber.Ctx) error {
 		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "No preferred user address found with ID", "data": nil})
 	}
 	return c.JSON(fiber.Map{"status": "success", "message": "Preferred User Address found", "data": u_addres})
+	// return c.JSON(u_addres) // idea solo retorna data
 }
 
 // CreateUserAddress new address

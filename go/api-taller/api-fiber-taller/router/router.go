@@ -14,6 +14,10 @@ func SetupRoutes(app *fiber.App) {
 	api.Get("/", handler.Hello)
 
 	student := api.Group("/student")
+	student.Post("/", handler.CreateEstudiante)
+	student.Delete("/:id", handler.DeleteEstudiante)
+	student.Put("/", handler.UpdateEstudiante)
+	student.Post("/course/", handler.CreateEstudianteCurso)
 	student.Get("/mejor/", handler.GetMejorEstudiante)
 	student.Get("/old/:gender", handler.GetMoreOldEstudiante)
 	student.Get("/low/:id", handler.GetLowEstudianteCurso)

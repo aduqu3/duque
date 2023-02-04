@@ -195,3 +195,22 @@ func GetLowEstudianteCurso(id int) ([]model.EstudianteCurso, error) {
 
 	return e_c, nil
 }
+
+
+// CreateUserAddress new address
+func CreateEstudiante(u_address model.Estudiante) (model.Estudiante, error) {
+	db := database.DB
+	if err := db.Create(&u_address).Error; err != nil {
+		return u_address, err
+	}
+	return u_address, nil
+}
+
+// CreateUserAddress new address
+func CreateEstudianteCurso(u_address model.EstudianteCurso) (model.EstudianteCurso, error) {
+	db := database.DB
+	if err := db.Create(&u_address).Error; err != nil {
+		return u_address, err
+	}
+	return u_address, nil
+}

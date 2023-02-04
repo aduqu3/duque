@@ -26,7 +26,7 @@ type Curso struct {
 
 type EstudianteCurso struct {
 	gorm.Model
-	EstudianteId int
+	EstudianteId int        `json:"estudiante_id"`
 	CursoId      int        `json:"curso_id"`
 	Nota         float64    `json:"nota"`
 	Estudiante   Estudiante `gorm:"foreignKey:EstudianteId; constraint:OnUpdate:CASCADE,OnDelete:SET NULL; not null"`

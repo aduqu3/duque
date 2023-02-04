@@ -157,3 +157,21 @@ func Logout(c *fiber.Ctx) error {
 	return c.SendString("Welcome " + name)
 	// return c.JSON(fiber.Map{"status": "success", "message": "Success logout"})
 }
+
+func GetUserIdOfToken(c *fiber.Ctx) int {
+	user := c.Locals("user").(*jwt.Token)
+	fmt.Println(user)
+
+	claims := user.Claims.(jwt.MapClaims)
+	fmt.Println(claims)
+	// name := claims["username"].(string)
+
+	// fmt.Println(user.Raw) // token
+
+	// return c.SendString("Welcome " + name)
+
+	user_id := claims["username"].(int)
+	return user_id
+	
+	// return c.JSON(fiber.Map{"status": "success", "message": "Success logout"})
+}

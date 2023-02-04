@@ -82,25 +82,24 @@ type Pet struct {
 	BirthDate time.Time `json:"birth_date"`
 }
 
-// UserPet struct // transfer pet
-type UserPet struct {
+// Onw struct // transfer pet
+type Own struct {
 	gorm.Model
 	UserId int  `json:"user_id"`
 	PetId  int  `json:"pet_id"`
 	State  bool `gorm:"default:true" json:"state"`
 	User   User `gorm:"foreignKey:UserId; constraint:OnUpdate:CASCADE,OnDelete:SET NULL; not null"`
 	Pet    Pet  `gorm:"foreignKey:PetId; constraint:OnUpdate:CASCADE,OnDelete:SET NULL; not null"`
-	// Visited_at time.Time `json:"registered"`
 }
 
 // User struct
-type PetVaccine struct {
+type PetRecords struct {
 	gorm.Model
-	Date       time.Time `json:"date"`
-	Vaccine    string    `gorm:"not null" json:"vaccine"`
-	Vaccinator string    `json:"vaccinator"`
-	PetId      int       `json:"pet_id"`
-	Pet        Pet       `gorm:"foreignKey:PetId; constraint:OnUpdate:CASCADE,OnDelete:SET NULL; not null"`
+	Date        time.Time `json:"date"`
+	Record      string    `gorm:"not null" json:"record"`
+	Description string    `json:"description"`
+	PetId       int       `json:"pet_id"`
+	Pet         Pet       `gorm:"foreignKey:PetId; constraint:OnUpdate:CASCADE,OnDelete:SET NULL; not null"`
 }
 
 // User struct

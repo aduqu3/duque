@@ -92,8 +92,8 @@ type Own struct {
 	Pet    Pet  `gorm:"foreignKey:PetId; constraint:OnUpdate:CASCADE,OnDelete:SET NULL; not null"`
 }
 
-// User struct
-type PetRecords struct {
+// PetRecord struct
+type PetRecord struct {
 	gorm.Model
 	Date        time.Time `json:"date"`
 	Record      string    `gorm:"not null" json:"record"`

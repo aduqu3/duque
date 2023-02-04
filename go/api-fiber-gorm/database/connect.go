@@ -31,7 +31,7 @@ func ConnectDB() {
 	DB.AutoMigrate(
 		&model.Country{}, &model.Department{}, &model.City{},
 		&model.UserType{}, &model.User{}, &model.UserAddress{},
-		&model.Pet{}, &model.UserPet{}, &model.PetVaccine{},
+		&model.Pet{}, &model.Own{}, &model.PetRecord{},
 	)
 
 	// DB.Create(&model.UserType{Role: "normal"}) // init database !import!

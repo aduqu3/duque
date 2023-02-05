@@ -27,7 +27,13 @@ func SetupRoutes(app *fiber.App) {
 	// Address
 	address := api.Group("/address")
 	address.Post("/", middleware.Protected(), handler.CreateUserAddress)
-	address.Get("/?user_id:id", middleware.Protected(), handler.GetPreferredUserAddress)
+	// http://localhost:8000/api/address/user_id=1
+	address.Get("/user_id=:id", middleware.Protected(), handler.Test2) // funciona - get para relacion
+	// http://localhost:8000/api/address/user_id:1
+	address.Get("/user_id::id", middleware.Protected(), handler.GetPreferredUserAddress) // funciona - get para relacion
+	// http://localhost:8000/api/address/1
+	address.Get("/:id", middleware.Protected(), handler.Test) // funciona - solo get id address
+	
 
 	// Country
 	country := api.Group("/countrys")

@@ -163,15 +163,18 @@ func GetUserIdOfToken(c *fiber.Ctx) int {
 	fmt.Println(user)
 
 	claims := user.Claims.(jwt.MapClaims)
-	fmt.Println(claims)
+	// fmt.Println(claims)
 	// name := claims["username"].(string)
 
 	// fmt.Println(user.Raw) // token
 
 	// return c.SendString("Welcome " + name)
 
-	user_id := claims["username"].(int)
+	user_id := int(claims["user_id"].(float64))
+
+	// fmt.Println(user_id)                 // token
+	// fmt.Println(reflect.TypeOf(user_id)) // token
 	return user_id
-	
+
 	// return c.JSON(fiber.Map{"status": "success", "message": "Success logout"})
 }

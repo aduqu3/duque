@@ -23,11 +23,6 @@ func ConnectDB() {
 	}
 
 	fmt.Println("Connection Opened to Database")
-	// DB.AutoMigrate(
-	// 	&model.Country{}, &model.Department{}, &model.City{}, &model.Address{},
-	// 	&model.UserType{}, &model.User{}, &model.Pet{},
-	// 	&model.UserAddress{}, &model.UserPet{}, &model.PetVaccine{},
-	// )
 	DB.AutoMigrate(
 		&model.Country{}, &model.Department{}, &model.City{},
 		&model.UserType{}, &model.User{}, &model.UserAddress{},

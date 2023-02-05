@@ -39,6 +39,8 @@ func GetPreferredUserAddress(id int) (model.UserAddress, error) {
 
 // CreateUserAddress new address
 func CreateUserAddress(u_address model.UserAddress) (model.UserAddress, error) {
+
+
 	db := database.DB
 	if err := db.Create(&u_address).Error; err != nil {
 		return u_address, err

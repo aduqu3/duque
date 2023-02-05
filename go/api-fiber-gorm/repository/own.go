@@ -3,7 +3,6 @@ package repository
 import (
 	"api-fiber-gorm/database"
 	"api-fiber-gorm/model"
-	"fmt"
 )
 
 // CreateOwnPet add pet to user
@@ -54,7 +53,7 @@ func ValidateOwnerPet(user_id int, pet_id int) bool {
 		return true
 	}
 
-	fmt.Println(result)
+	// fmt.Println(result)
 
 	// fmt.Println(result.Statement.Vars...)
 	// fmt.Println(result.Statement.TableExpr.Vars...)
@@ -72,7 +71,7 @@ func ValidateOwnerPet(user_id int, pet_id int) bool {
 }
 
 func TransferPet(user_id int, pet_id int, username string) (model.Own, error) {
-	fmt.Println("llega al repository")
+	// fmt.Println("llega al repository")
 
 	db := database.DB
 	var mdl_own model.Own
@@ -82,8 +81,8 @@ func TransferPet(user_id int, pet_id int, username string) (model.Own, error) {
 		return model.Own{}, nil
 	}
 
-	fmt.Println(mdl_own.UserId)
-	fmt.Println(mdl_own.PetId)
+	// fmt.Println(mdl_own.UserId)
+	// fmt.Println(mdl_own.PetId)
 
 	// change user id before create new record own
 	var mdl_user model.User

@@ -3,8 +3,6 @@ package handler
 import (
 	"api-fiber-gorm/model"
 	"api-fiber-gorm/repository"
-	"fmt"
-	"strconv"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -61,36 +59,36 @@ func GetPreferredUserAddress(c *fiber.Ctx) error {
 }
 
 // GetUserAddress get preferred useraddress
-func Test(c *fiber.Ctx) error {
-	fmt.Println("test 1")
-	id, err := c.ParamsInt("id")
+// func Test(c *fiber.Ctx) error {
+// 	fmt.Println("test 1")
+// 	id, err := c.ParamsInt("id")
 
-	fmt.Println(id)
+// 	fmt.Println(id)
 
-	if err != nil {
-		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Not found id", "data": nil})
-	}
+// 	if err != nil {
+// 		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Not found id", "data": nil})
+// 	}
 
-	return c.Status(404).JSON(fiber.Map{"status": "error", "message": "No preferred user address found with ID", "data": nil})
-	// return c.JSON(u_addres) // idea solo retorna data
-}
+// 	return c.Status(404).JSON(fiber.Map{"status": "error", "message": "No preferred user address found with ID", "data": nil})
+// 	// return c.JSON(u_addres) // idea solo retorna data
+// }
 
 // GetUserAddress get preferred useraddress
-func Test2(c *fiber.Ctx) error {
-	fmt.Println("test 2")
-	id, err := strconv.Atoi(c.Params("id"))
+// func Test2(c *fiber.Ctx) error {
+// 	fmt.Println("test 2")
+// 	id, err := strconv.Atoi(c.Params("id"))
 
-	fmt.Println(id)
-	fmt.Println(c.Params("user_id"))
-	fmt.Println(c.Params("pet_id"))
+// 	fmt.Println(id)
+// 	fmt.Println(c.Params("user_id"))
+// 	fmt.Println(c.Params("pet_id"))
 
-	if err != nil {
-		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Not found id", "data": nil})
-	}
+// 	if err != nil {
+// 		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Not found id", "data": nil})
+// 	}
 
-	return c.Status(404).JSON(fiber.Map{"status": "error", "message": "No preferred user address found with ID", "data": nil})
-	// return c.JSON(u_addres) // idea solo retorna data
-}
+// 	return c.Status(404).JSON(fiber.Map{"status": "error", "message": "No preferred user address found with ID", "data": nil})
+// 	// return c.JSON(u_addres) // idea solo retorna data
+// }
 
 // UpdateUser update user
 // func UpdateUser(c *fiber.Ctx) error {

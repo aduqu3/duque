@@ -9,6 +9,11 @@ import (
 
 // CreateUserAddress new address
 func CreatePetRecord(c *fiber.Ctx) error {
+	user_id, err := c.ParamsInt("user_id")
+	if err != nil {
+		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Review your input", "data": nil})
+	}
+
 	pet_id, err := c.ParamsInt("pet_id")
 	if err != nil {
 		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Review your input", "data": nil})
@@ -19,7 +24,9 @@ func CreatePetRecord(c *fiber.Ctx) error {
 		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Review your input", "data": err})
 	}
 
-	user_id := GetUserIdOfToken(c)
+	if u_id := GetUserIdOfToken(c); u_id != user_id {
+		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Forbidden action", "data": nil})
+	}
 	// validate if pet is own by user authenticate
 	if repository.ValidateOwnerPet(user_id, mdl.PetId) {
 		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Forbidden action", "data": nil})
@@ -37,19 +44,26 @@ func CreatePetRecord(c *fiber.Ctx) error {
 
 // GetAllPetRecords
 func GetAllPetRecords(c *fiber.Ctx) error {
+	user_id, err := c.ParamsInt("user_id")
+	if err != nil {
+		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Error in convert data", "data": nil})
+	}
+
 	pet_id, err := c.ParamsInt("pet_id")
 
 	if err != nil {
 		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Review your input", "data": nil})
 	}
 
-	u_id := GetUserIdOfToken(c)
-
-	if repository.ValidateOwnerPet(u_id, pet_id) {
+	if u_id := GetUserIdOfToken(c); u_id != user_id {
 		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Forbidden action", "data": nil})
 	}
 
-	mdl, err := repository.GetAllPetsOwns(pet_id)
+	if repository.ValidateOwnerPet(user_id, pet_id) {
+		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Forbidden action", "data": nil})
+	}
+
+	mdl, err := repository.GetAllPetRecords(pet_id)
 
 	if err != nil {
 		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "No preferred user address found with ID", "data": nil})

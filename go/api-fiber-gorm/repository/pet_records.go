@@ -21,7 +21,7 @@ func GetAllPetRecords(pet_id int) ([]model.PetRecord, error) {
 	db := database.DB
 	var mdl []model.PetRecord
 
-	result := db.Where(&mdl, model.PetRecord{PetId: pet_id}).Find(&mdl)
+	result := db.Where(&mdl, model.PetRecord{PetId: pet_id}).Order("date DESC").Find(&mdl)
 
 	if result.Error != nil || result.RowsAffected == 0 {
 		return nil, nil

@@ -10,6 +10,7 @@ import (
 
 // SetupRoutes setup router api
 func SetupRoutes(app *fiber.App) {
+
 	// Middleware
 	api := app.Group("/api", logger.New())
 	api.Get("/", handler.Hello)
@@ -20,13 +21,15 @@ func SetupRoutes(app *fiber.App) {
 
 	// User
 	user := api.Group("/users")
-	user.Post("/", handler.CreateUser)                                                        // create user
-	user.Get("/:user_id", middleware.Protected(), handler.GetUser)                            // get user by id
-	user.Post("/:user_id/address", middleware.Protected(), handler.CreateUserAddress)         // create user address
-	user.Get("/:user_id/address", middleware.Protected(), handler.GetPreferredUserAddress)    // get user address
-	user.Post("/:user_id/pets", middleware.Protected(), handler.CreatePetOwn)                 // CreatePet And Register Owner
-	user.Get("/:user_id/pets", middleware.Protected(), handler.GetAllPetsOwns)                // GetAllPetsOwns by user
-	user.Post("/:user_id/transfer/pets/:pet_id", middleware.Protected(), handler.TransferPet) // TransferPet to other user
+	user.Post("/", handler.CreateUser)                                                           // create user
+	user.Get("/:user_id", middleware.Protected(), handler.GetUser)                               // get user by id
+	user.Post("/:user_id/address", middleware.Protected(), handler.CreateUserAddress)            // create user address
+	user.Get("/:user_id/address", middleware.Protected(), handler.GetPreferredUserAddress)       // get user address
+	user.Post("/:user_id/pets", middleware.Protected(), handler.CreatePetOwn)                    // CreatePet And Register Owner
+	user.Get("/:user_id/pets", middleware.Protected(), handler.GetAllPetsOwns)                   // GetAllPetsOwns by user
+	user.Post("/:user_id/transfer/pets/:pet_id", middleware.Protected(), handler.TransferPet)    // TransferPet to other user
+	user.Get("/:user_id/pets/:pet_id/records", middleware.Protected(), handler.GetAllPetRecords) // GetAllPetRecords
+	user.Post("/:user_id/pets/:pet_id/records", middleware.Protected(), handler.CreatePetRecord) // CreatePetRecord
 
 	// Country
 	country := api.Group("/countrys")
@@ -48,9 +51,9 @@ func SetupRoutes(app *fiber.App) {
 	// owns.Post("/transfer/user_id=:user_id-pet_id=:pet_id", middleware.Protected(), handler.TransferPet) // TransferPet to other user
 
 	// Pets
-	pets := api.Group("/pets")
-	pets.Get("/:pet_id/records", middleware.Protected(), handler.GetAllPetRecords) // GetAllPetRecords
-	pets.Post("/:pet_id/records", middleware.Protected(), handler.CreatePetRecord) // CreatePetRecord
+	// pets := api.Group("/pets")
+	// pets.Get("/:pet_id/records", middleware.Protected(), handler.GetAllPetRecords) // GetAllPetRecords
+	// pets.Post("/:pet_id/records", middleware.Protected(), handler.CreatePetRecord) // CreatePetRecord
 
 	// PetRecords
 	// records := api.Group("/petrecords")

@@ -30,7 +30,7 @@ func SetupRoutes(app *fiber.App) {
 	// http://localhost:8000/api/address/user_id=1
 	address.Get("/user_id=:id", middleware.Protected(), handler.GetPreferredUserAddress) // funciona - get para relacion
 	// http://localhost:8000/api/address/1
-	address.Get("/:id", middleware.Protected(), handler.Test) // funciona - solo get id address
+	// address.Get("/:id", middleware.Protected(), handler.) // funciona - solo get id address
 
 	// Country
 	country := api.Group("/countrys")
@@ -38,53 +38,27 @@ func SetupRoutes(app *fiber.App) {
 
 	// Department
 	department := api.Group("/departments")
-	department.Get("/", middleware.Protected(), handler.GetAllDepartments)
+	// department.Get("/", middleware.Protected(), handler.GetAllDepartments)
 	department.Get("/country_id=:id", middleware.Protected(), handler.GetCountryDepartments)
 
 	// City
 	city := api.Group("/citys")
-	city.Get("/", middleware.Protected(), handler.GetAllCitys)
+	// city.Get("/", middleware.Protected(), handler.GetAllCitys)
 	city.Get("/deparment_id=:id", middleware.Protected(), handler.GetDepartmentCitys)
 
 	// Owns
 	owns := api.Group("/owns")
-	owns.Get("/user_id=:id", middleware.Protected(), handler.Test) // GetAllPetsOfUser
-	owns.Post("/transfer/:user_id-:pet_id", middleware.Protected(), handler.Test2) // TransferPet to other user
+	owns.Get("/user_id=:id", middleware.Protected(), handler.GetAllPetsOwns)             // GetAllPetsOwns
+	owns.Post("/transfer/user_id=:user_id-pet_id=:pet_id", middleware.Protected(), handler.TransferPet) // TransferPet to other user
 
 	// Pets
 	pets := api.Group("/pets")
-	// pets.Get("/pet_id=:id", middleware.Protected(), handler.GetDepartmentCitys) // no idea
-	pets.Post("/", middleware.Protected(), handler.GetDepartmentCitys) // CreatePet
+	pets.Post("/", middleware.Protected(), handler.CreatePetOwn) // CreatePet And Register Owner
 
 	// PetRecords
 	records := api.Group("/petrecords")
-	records.Get("/pet_id=:id", middleware.Protected(), handler.GetDepartmentCitys) // GetAllPetRecords
-	records.Post("/", middleware.Protected(), handler.GetDepartmentCitys)          // CreatePetRecord
+	records.Get("/pet_id=:id", middleware.Protected(), handler.GetAllPetRecords) // GetAllPetRecords
+	records.Post("/", middleware.Protected(), handler.CreatePetRecord)           // CreatePetRecord
 
-	// user.Patch("/:id", middleware.Protected(), handler.UpdateUser)
-	// user.Delete("/:id", middleware.Protected(), handler.DeleteUser)
-	// user.Get("/address/:id", middleware.Protected(), handler.GetPreferredUserAddress)
-	// user.Post("/address/", middleware.Protected(), handler.CreateUserAddress)
-
-	// // Country
-	// country := api.Group("/country")
-	// country.Get("/", middleware.Protected(), handler.GetAllCountrys)
-	// country.Get("/deparments/:id", middleware.Protected(), handler.GetCountryDepartments)
-
-	// // Department
-	// department := api.Group("/department")
-	// department.Get("/", middleware.Protected(), handler.GetAllDepartments)
-	// department.Get("/citys/:id", middleware.Protected(), handler.GetDepartmentCitys)
-
-	// // City
-	// city := api.Group("/city")
-	// city.Get("/", middleware.Protected(), handler.GetAllCitys)
-	// city.Get("/:id", handler.GetProduct)
-
-	// Product
-	// product := api.Group("/product")
-	// product.Get("/", handler.GetAllProducts)
-	// product.Get("/:id", handler.GetProduct)
-	// product.Post("/", middleware.Protected(), handler.CreateProduct)
-	// product.Delete("/:id", middleware.Protected(), handler.DeleteProduct)
+	// get pet data and user data and address
 }

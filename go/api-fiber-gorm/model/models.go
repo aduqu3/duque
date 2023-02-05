@@ -87,7 +87,6 @@ type Own struct {
 	gorm.Model
 	UserId int  `json:"user_id"`
 	PetId  int  `json:"pet_id"`
-	State  bool `gorm:"default:true" json:"state"`
 	User   User `gorm:"foreignKey:UserId; constraint:OnUpdate:CASCADE,OnDelete:SET NULL; not null"`
 	Pet    Pet  `gorm:"foreignKey:PetId; constraint:OnUpdate:CASCADE,OnDelete:SET NULL; not null"`
 }

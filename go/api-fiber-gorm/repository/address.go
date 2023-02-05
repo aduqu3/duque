@@ -7,15 +7,12 @@ import (
 	"gorm.io/gorm"
 )
 
-// GetUserAddress get preferred useraddress
-func GetPreferredUserAddress(id int) (model.UserAddress, error) {
+// CreateUserAddress new address
+func CreateUserAddress(u_address model.UserAddress) (model.UserAddress, error) {
+
 	db := database.DB
-	var u_address model.UserAddress
-
-	result := db.Where(&u_address, model.UserAddress{UserId: id, Preferred: true}).Find(&u_address)
-
-	if result.Error != nil || result.RowsAffected == 0 {
-		return u_address, gorm.ErrEmptySlice
+	if err := db.Create(&u_address).Error; err != nil {
+		return u_address, err
 	}
 
 	var err error
@@ -37,13 +34,15 @@ func GetPreferredUserAddress(id int) (model.UserAddress, error) {
 	return u_address, nil
 }
 
-// CreateUserAddress new address
-func CreateUserAddress(u_address model.UserAddress) (model.UserAddress, error) {
-
-
+// GetUserAddress get preferred useraddress
+func GetPreferredUserAddress(id int) (model.UserAddress, error) {
 	db := database.DB
-	if err := db.Create(&u_address).Error; err != nil {
-		return u_address, err
+	var u_address model.UserAddress
+
+	result := db.Where(&u_address, model.UserAddress{UserId: id, Preferred: true}).Find(&u_address)
+
+	if result.Error != nil || result.RowsAffected == 0 {
+		return u_address, gorm.ErrEmptySlice
 	}
 
 	var err error

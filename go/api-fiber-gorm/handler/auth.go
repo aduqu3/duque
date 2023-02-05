@@ -160,7 +160,7 @@ func Logout(c *fiber.Ctx) error {
 
 func GetUserIdOfToken(c *fiber.Ctx) int {
 	user := c.Locals("user").(*jwt.Token)
-	fmt.Println(user)
+	// fmt.Println(user)
 
 	claims := user.Claims.(jwt.MapClaims)
 	// fmt.Println(claims)

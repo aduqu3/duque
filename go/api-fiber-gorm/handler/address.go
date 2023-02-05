@@ -48,6 +48,8 @@ func Test2(c *fiber.Ctx) error {
 	id, err := strconv.Atoi(c.Params("id"))
 
 	fmt.Println(id)
+	fmt.Println(c.Params("user_id"))
+	fmt.Println(c.Params("pet_id"))
 
 	if err != nil {
 		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Not found id", "data": nil})

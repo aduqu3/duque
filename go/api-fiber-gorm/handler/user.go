@@ -46,15 +46,19 @@ func validUser(id string, p string) bool {
 
 // GetUser get userdata of user authenticate
 func GetUser(c *fiber.Ctx) error {
-	id, _ := c.ParamsInt("id")
+	user_id, err := c.ParamsInt("user_id")
 
-	if u_id := GetUserIdOfToken(c); u_id != id {
+	if err != nil {
+		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Not found id", "data": nil})
+	}
+
+	if u_id := GetUserIdOfToken(c); u_id != user_id {
 		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Forbidden action", "data": nil})
 	}
 
 	db := database.DB
 	var user model.User
-	db.Find(&user, id)
+	db.Find(&user, user_id)
 
 	user.Password = ""
 	return c.JSON(fiber.Map{"status": "success", "message": "User found", "data": user})

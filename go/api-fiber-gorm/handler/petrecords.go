@@ -9,6 +9,10 @@ import (
 
 // CreateUserAddress new address
 func CreatePetRecord(c *fiber.Ctx) error {
+	pet_id, err := c.ParamsInt("pet_id")
+	if err != nil {
+		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Review your input", "data": nil})
+	}
 
 	mdl := new(model.PetRecord)
 	if err := c.BodyParser(mdl); err != nil {
@@ -16,12 +20,12 @@ func CreatePetRecord(c *fiber.Ctx) error {
 	}
 
 	user_id := GetUserIdOfToken(c)
-
 	// validate if pet is own by user authenticate
 	if repository.ValidateOwnerPet(user_id, mdl.PetId) {
 		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Forbidden action", "data": nil})
 	}
 
+	mdl.PetId = pet_id
 	res_mdl, err := repository.CreatePetRecord(*mdl)
 
 	if err != nil {
@@ -33,10 +37,10 @@ func CreatePetRecord(c *fiber.Ctx) error {
 
 // GetAllPetRecords
 func GetAllPetRecords(c *fiber.Ctx) error {
-	pet_id, err := c.ParamsInt("id")
+	pet_id, err := c.ParamsInt("pet_id")
 
 	if err != nil {
-		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Not found id", "data": nil})
+		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Review your input", "data": nil})
 	}
 
 	u_id := GetUserIdOfToken(c)

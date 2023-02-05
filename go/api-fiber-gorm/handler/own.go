@@ -9,7 +9,7 @@ import (
 
 // GetOwns GetAllPetsOwn
 func GetAllPetsOwns(c *fiber.Ctx) error {
-	user_id, err := c.ParamsInt("id")
+	user_id, err := c.ParamsInt("user_id")
 
 	if err != nil {
 		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Not found id", "data": nil})

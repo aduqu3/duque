@@ -11,15 +11,22 @@ import (
 
 // CreateUserAddress new address
 func CreateUserAddress(c *fiber.Ctx) error {
+	user_id, err := c.ParamsInt("user_id")
+
+	if err != nil {
+		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Not found id", "data": nil})
+	}
 
 	u_a := new(model.UserAddress)
 	if err := c.BodyParser(u_a); err != nil {
 		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Review your input", "data": err})
 	}
 
-	if u_id := GetUserIdOfToken(c); u_id != u_a.UserId {
+	if u_id := GetUserIdOfToken(c); u_id != user_id {
 		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Forbidden action", "data": nil})
 	}
+	// asing user id
+	u_a.UserId = user_id
 
 	u_address, err := repository.CreateUserAddress(*u_a)
 
@@ -32,7 +39,7 @@ func CreateUserAddress(c *fiber.Ctx) error {
 
 // GetUserAddress get preferred useraddress
 func GetPreferredUserAddress(c *fiber.Ctx) error {
-	user_id, err := c.ParamsInt("id")
+	user_id, err := c.ParamsInt("user_id")
 	// strconv.Atoi(c.Params("id"))
 
 	if err != nil {

@@ -2,7 +2,6 @@ package handler
 
 import (
 	"api-fiber-gorm/repository"
-	"strconv"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -19,7 +18,7 @@ func GetAllDepartments(c *fiber.Ctx) error {
 }
 
 func GetDepartmentCitys(c *fiber.Ctx) error {
-	id, err := strconv.Atoi(c.Params("id"))
+	id, err := c.ParamsInt("department_id")
 
 	if err != nil {
 		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Not found resource", "data": nil})

@@ -41,10 +41,6 @@ func SetupRoutes(app *fiber.App) {
 	// department.Get("/", middleware.Protected(), handler.GetAllDepartments)
 	department.Get("/:department_id/citys", middleware.Protected(), handler.GetDepartmentCitys)
 
-	// Media
-	media := api.Group("/images")
-	media.Post("/", middleware.Protected(), handler.Fileupload)
-
 	// City
 	// city := api.Group("/citys")
 	// city.Get("/", middleware.Protected(), handler.GetAllCitys)

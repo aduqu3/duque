@@ -34,18 +34,15 @@ func CreatePetOwn(c *fiber.Ctx) error {
 
 	// if get image dont present error, save image to folder
 	if err == nil {
-		log.Println("image upload error --> ", err)
-		// return c.JSON(fiber.Map{"status": 500, "message": "Server error", "data": nil})
+		log.Println("saving image --> ", err)
 
 		// generate new uuid for image name
 		uniqueId := uuid.New()
 
 		// remove "- from imageName"
-
 		filename := strings.Replace(uniqueId.String(), "-", "", -1)
 
 		// extract image extension from original file filename
-
 		fileExt := strings.Split(file.Filename, ".")[1]
 
 		// generate image from filename and extension
@@ -55,12 +52,11 @@ func CreatePetOwn(c *fiber.Ctx) error {
 		err = c.SaveFile(file, fmt.Sprintf(config.Config("MEDIA_PATH")+"%s", image))
 
 		if err == nil {
-			fmt.Println(image)
 			pet.Image = image
-			log.Println("image saved and passed to pet")
-			// log.Println("image save error --> ", err)
-			// return c.JSON(fiber.Map{"status": 500, "message": "Server error", "data": nil})
+			log.Println("image saved and saving in pet")
 		}
+	} else {
+		log.Println("error in saving image --> ", err)
 	}
 
 	pet_data, err := repository.CreatePet(*pet)

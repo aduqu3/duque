@@ -77,9 +77,10 @@ type Pet struct {
 	Name      string    `gorm:"not null" json:"name"`
 	Type      string    `gorm:"not null" json:"type"`
 	Breed     string    `json:"breed"`
-	Sex       string    `json:"sex"`
+	Gender    string    `json:"gender"`
 	Color     string    `json:"lastname"`
 	BirthDate time.Time `json:"birth_date"`
+	Image     string    `json:"image"`
 }
 
 // Onw struct // transfer pet

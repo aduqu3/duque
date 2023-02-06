@@ -1,10 +1,15 @@
 package handler
 
 import (
+	"api-fiber-gorm/config"
 	"api-fiber-gorm/model"
 	"api-fiber-gorm/repository"
+	"fmt"
+	"log"
+	"strings"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/google/uuid"
 )
 
 // CreatePet and Own
@@ -22,6 +27,40 @@ func CreatePetOwn(c *fiber.Ctx) error {
 
 	if u_id := GetUserIdOfToken(c); u_id != user_id {
 		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Forbidden action", "data": nil})
+	}
+
+	// get image of pet
+	file, err := c.FormFile("image")
+
+	// if get image dont present error, save image to folder
+	if err == nil {
+		log.Println("image upload error --> ", err)
+		// return c.JSON(fiber.Map{"status": 500, "message": "Server error", "data": nil})
+
+		// generate new uuid for image name
+		uniqueId := uuid.New()
+
+		// remove "- from imageName"
+
+		filename := strings.Replace(uniqueId.String(), "-", "", -1)
+
+		// extract image extension from original file filename
+
+		fileExt := strings.Split(file.Filename, ".")[1]
+
+		// generate image from filename and extension
+		image := fmt.Sprintf("%s.%s", filename, fileExt)
+
+		// save image to ./images dir
+		err = c.SaveFile(file, fmt.Sprintf(config.Config("MEDIA_PATH")+"%s", image))
+
+		if err == nil {
+			fmt.Println(image)
+			pet.Image = image
+			log.Println("image saved and passed to pet")
+			// log.Println("image save error --> ", err)
+			// return c.JSON(fiber.Map{"status": 500, "message": "Server error", "data": nil})
+		}
 	}
 
 	pet_data, err := repository.CreatePet(*pet)

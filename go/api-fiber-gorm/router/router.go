@@ -32,7 +32,7 @@ func SetupRoutes(app *fiber.App) {
 	user.Post("/:user_id/pets/:pet_id/records", middleware.Protected(), handler.CreatePetRecord) // CreatePetRecord
 
 	// Country
-	country := api.Group("/countrys")
+	country := api.Group("/countries")
 	country.Get("/", middleware.Protected(), handler.GetAllCountrys)
 	country.Get("/:country_id/departments", middleware.Protected(), handler.GetCountryDepartments) // Get all departments of country
 
@@ -40,6 +40,10 @@ func SetupRoutes(app *fiber.App) {
 	department := api.Group("/departments")
 	// department.Get("/", middleware.Protected(), handler.GetAllDepartments)
 	department.Get("/:department_id/citys", middleware.Protected(), handler.GetDepartmentCitys)
+
+	// Media
+	media := api.Group("/images")
+	media.Post("/", middleware.Protected(), handler.Fileupload)
 
 	// City
 	// city := api.Group("/citys")

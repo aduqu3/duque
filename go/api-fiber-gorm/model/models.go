@@ -102,13 +102,3 @@ type PetRecord struct {
 	PetId       int       `json:"pet_id"`
 	Pet         Pet       `gorm:"foreignKey:PetId; constraint:OnUpdate:CASCADE,OnDelete:SET NULL; not null"`
 }
-
-// User struct
-// type Vaccine struct {
-// 	gorm.Model
-// 	Username  string `gorm:"uniqueIndex; not null" json:"username"`
-// 	Email     string `gorm:"uniqueIndex; not null" json:"email"`
-// 	Password  string `gorm:"not null" json:"password"`
-// 	FirstName string `json:"fistname"`
-// 	LastName  string `json:"lastname"`
-// }

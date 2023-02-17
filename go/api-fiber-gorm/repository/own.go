@@ -28,16 +28,9 @@ func GetAllPetsOwns(user_id int) ([]model.Pet, error) {
 	// var err error
 	var pets []model.Pet
 	for _, item := range mdl_own {
-		// mdl_own[i].Pet, _ = GetPet(item.PetId)
 		pet, _ := GetPet(item.PetId)
 		pets = append(pets, pet)
 	}
-
-	// fmt.Println(mdl_own[:])
-
-	// if err != nil {
-	// 	return mdl_own, err
-	// }
 
 	return pets, nil
 }
@@ -53,25 +46,10 @@ func ValidateOwnerPet(user_id int, pet_id int) bool {
 		return true
 	}
 
-	// fmt.Println(result)
-
-	// fmt.Println(result.Statement.Vars...)
-	// fmt.Println(result.Statement.TableExpr.Vars...)
-
-	// var err error
-	// for i, item := range mdl_own {
-	// 	mdl_own[i].Pet, _ = GetPet(item.PetId)
-	// }
-
-	// if err != nil {
-	// 	return mdl_own, err
-	// }
-
 	return false
 }
 
 func TransferPet(user_id int, pet_id int, username string) (model.Own, error) {
-	// fmt.Println("llega al repository")
 
 	db := database.DB
 	var mdl_own model.Own
@@ -80,9 +58,6 @@ func TransferPet(user_id int, pet_id int, username string) (model.Own, error) {
 	if result.Error != nil || result.RowsAffected == 0 {
 		return model.Own{}, nil
 	}
-
-	// fmt.Println(mdl_own.UserId)
-	// fmt.Println(mdl_own.PetId)
 
 	// change user id before create new record own
 	var mdl_user model.User
@@ -101,8 +76,6 @@ func TransferPet(user_id int, pet_id int, username string) (model.Own, error) {
 		UserId: int(mdl_user.ID),
 		PetId:  mdl_own.PetId,
 	}
-
-	// mdl_own.UserId = int(mdl_user.ID)
 
 	// create new record own with new owner of pet
 	if err := db.Create(&new_mdl_own).Error; err != nil {

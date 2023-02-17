@@ -110,12 +110,6 @@ func Login(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"status": "error", "message": "User not found", "data": err})
 	}
 
-	// var role model.UserType
-	// role := new(model.UserType)
-	// fmt.Println(user.Username)
-	// // role, err := getUserRole(user.UserTypeId)
-	// role := "basic"
-
 	if email != nil {
 		role, _ := getUserRole(email.UserTypeId)
 
@@ -152,13 +146,6 @@ func Login(c *fiber.Ctx) error {
 		"exp":      time.Now().Add(time.Hour * 24).Unix(), // 24 hours
 	}
 
-	// fmt.Println("Vamos a imprimir identity")
-	// fmt.Println(identity)
-
-	// claims["username"] = ud.Username
-	// claims["user_id"] = ud.ID
-	// claims["exp"] = time.Now().Add(time.Hour * 24).Unix() // 24 hours
-
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
 	accessToken, err := token.SignedString([]byte(config.Config("SECRET")))
@@ -166,59 +153,16 @@ func Login(c *fiber.Ctx) error {
 		return c.SendStatus(fiber.StatusInternalServerError)
 	}
 
-	// type NewUser struct {
-	// 	Username   string `json:"username"`
-	// 	Email      string `json:"email"`
-	// 	FirstName  string `json:"firstname"`
-	// 	LastName   string `json:"lastname"`
-	// 	UserTypeId int
-	// 	// Password string `json: "password"`
-	// }
-
-	// data := data{
-
-	// }
-	// claims := jwt.MapClaims{
-	// 	"username": ud.Username,
-	// 	"roles":     ud.Role,
-	// 	"user_id":  ud.ID,
-	// 	"exp":      time.Now().Add(time.Hour * 24).Unix(), // 24 hours
-	// }
-
 	return c.JSON(fiber.Map{"accessToken": accessToken, "roles": ud.Role, "id": ud.ID, "username": ud.Username})
 }
 
-// func Logout(c *fiber.Ctx) error {
-// 	user := c.Locals("user").(*jwt.Token)
-// 	fmt.Println(user)
-
-// 	claims := user.Claims.(jwt.MapClaims)
-// 	fmt.Println(claims)
-// 	name := claims["username"].(string)
-
-// 	fmt.Println(user.Raw) // token
-
-// 	return c.SendString("Welcome " + name)
-// 	// return c.JSON(fiber.Map{"status": "success", "message": "Success logout"})
-// }
-
 func GetUserIdOfToken(c *fiber.Ctx) int {
 	user := c.Locals("user").(*jwt.Token)
-	// fmt.Println(user)
 
 	claims := user.Claims.(jwt.MapClaims)
-	// fmt.Println(claims)
-	// name := claims["username"].(string)
-
-	// fmt.Println(user.Raw) // token
-
-	// return c.SendString("Welcome " + name)
 
 	user_id := int(claims["user_id"].(float64))
 
-	// fmt.Println(user_id)                 // token
-	// fmt.Println(reflect.TypeOf(user_id)) // token
 	return user_id
 
-	// return c.JSON(fiber.Map{"status": "success", "message": "Success logout"})
 }

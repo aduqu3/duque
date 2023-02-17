@@ -15,51 +15,51 @@ func CreateUserAddress(u_address model.UserAddress) (model.UserAddress, error) {
 		return u_address, err
 	}
 
-	var err error
-	u_address.City, err = GetCity(u_address.CityId)
-	if err != nil {
-		return u_address, err
-	}
+	// var err error
+	// u_address.City, err = GetCity(u_address.CityId)
+	// if err != nil {
+	// 	return u_address, err
+	// }
 
-	u_address.City.Department, err = GetDepartment(u_address.City.DepartmentId)
-	if err != nil {
-		return u_address, err
-	}
+	// u_address.City.Department, err = GetDepartment(u_address.City.DepartmentId)
+	// if err != nil {
+	// 	return u_address, err
+	// }
 
-	u_address.City.Department.Country, err = GetCountry(u_address.City.Department.CountryId)
-	if err != nil {
-		return u_address, err
-	}
+	// u_address.City.Department.Country, err = GetCountry(u_address.City.Department.CountryId)
+	// if err != nil {
+	// 	return u_address, err
+	// }
 
 	return u_address, nil
 }
 
 // GetUserAddress get preferred useraddress
-func GetPreferredUserAddress(id int) (model.UserAddress, error) {
+func GetActiveUserAddress(id int) (model.UserAddress, error) {
 	db := database.DB
 	var u_address model.UserAddress
 
-	result := db.Where(&u_address, model.UserAddress{UserId: id, Preferred: true}).Find(&u_address)
+	result := db.Where(model.UserAddress{UserId: id, Preferred: true}).First(&u_address)
 
 	if result.Error != nil || result.RowsAffected == 0 {
 		return u_address, gorm.ErrEmptySlice
 	}
 
-	var err error
-	u_address.City, err = GetCity(u_address.CityId)
-	if err != nil {
-		return u_address, err
-	}
+	// var err error
+	// u_address.City, err = GetCity(u_address.CityId)
+	// if err != nil {
+	// 	return u_address, err
+	// }
 
-	u_address.City.Department, err = GetDepartment(u_address.City.DepartmentId)
-	if err != nil {
-		return u_address, err
-	}
+	// u_address.City.Department, err = GetDepartment(u_address.City.DepartmentId)
+	// if err != nil {
+	// 	return u_address, err
+	// }
 
-	u_address.City.Department.Country, err = GetCountry(u_address.City.Department.CountryId)
-	if err != nil {
-		return u_address, err
-	}
+	// u_address.City.Department.Country, err = GetCountry(u_address.City.Department.CountryId)
+	// if err != nil {
+	// 	return u_address, err
+	// }
 
 	return u_address, nil
 }

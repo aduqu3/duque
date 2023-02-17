@@ -2,13 +2,14 @@ package handler
 
 import (
 	"api-fiber-gorm/repository"
+	"strconv"
 
 	"github.com/gofiber/fiber/v2"
 )
 
 // GetOwns GetAllPetsOwn
 func GetAllPetsOwns(c *fiber.Ctx) error {
-	user_id, err := c.ParamsInt("user_id")
+	user_id, err := strconv.Atoi(c.Query("user_id"))
 
 	if err != nil {
 		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Not found id", "data": nil})
@@ -32,12 +33,12 @@ func GetAllPetsOwns(c *fiber.Ctx) error {
 func TransferPet(c *fiber.Ctx) error {
 	// fmt.Println("entra jejjeje boy")
 
-	user_id, err := c.ParamsInt("user_id")
+	user_id, err := strconv.Atoi(c.Query("user_id"))
 	if err != nil {
 		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Error in convert data", "data": nil})
 	}
 
-	pet_id, err := c.ParamsInt("pet_id")
+	pet_id, err := strconv.Atoi(c.Query("pet_id"))
 
 	// fmt.Println(user_id)
 	// fmt.Println(pet_id)
@@ -78,6 +79,7 @@ func TransferPet(c *fiber.Ctx) error {
 		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "Unable to transfer Pet", "data": nil})
 	}
 
-	return c.JSON(fiber.Map{"status": "success", "message": "Preferred User Address found", "data": mdl})
+	return c.JSON(fiber.Map{"status": "success", "message": "Transfer successfully", "data": mdl})
+	// return c.JSON(fiber.Map{"status": "success", "message": "Created user", "data": newUser})
 	// return c.JSON(u_addres) // idea solo retorna data
 }

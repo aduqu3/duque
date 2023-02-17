@@ -24,11 +24,10 @@ func ConnectDB() {
 
 	fmt.Println("Connection Opened to Database")
 	DB.AutoMigrate(
-		&model.Country{}, &model.Department{}, &model.City{},
 		&model.UserType{}, &model.User{}, &model.UserAddress{},
 		&model.Pet{}, &model.Own{}, &model.PetRecord{},
 	)
 
-	// DB.Create(&model.UserType{Role: "normal"}) // init database !import!
+	// DB.Create(&model.UserType{Role: "general"}) // init database !import!
 	fmt.Println("Database Migrated")
 }

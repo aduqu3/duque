@@ -18,7 +18,7 @@ Fist clone the project, then run the next commands inside del folder project
 
     docker compose up -d
 
-then run the go server  
+if you use docker compose app (go project in container) but if you just run the container for database then run the go server  
     
     go run main.go
     

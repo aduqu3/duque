@@ -1,0 +1,57 @@
+#!/bin/bash
+
+#************* WEB SERVER FIREWALL ***********
+
+# Limpiar reglas
+clear
+iptables -F
+
+#************* POLITICAS ***********
+# No se permite ningún servicio adicional a las excepciones estipuladas acontinuación.
+iptables -P INPUT DROP
+iptables -P OUTPUT DROP
+
+#************* REGLAS DE INPUT ***********
+
+LOCAL_NETWORK=10.1.5.89/19
+ADMIN_ADDR=10.1.5.89
+ADMIN_MAC=00:e0:4c:53:44:58
+
+#DB_SERVER_ADDR=10.1.5.92
+#DB_SERVER_MAC=08:00:27:f4:29:bc
+
+# Provee el servicio web únicamente a las máquinas de la red local.
+iptables -A INPUT -p tcp --dport 80 -s $LOCAL_NETWORK -j ACCEPT
+
+# Provee el servicio web seguro únicamente a las máquinas de la red local.
+iptables -A INPUT -p tcp --dport 443 -s $LOCAL_NETWORK -j ACCEPT
+
+# Provee el servicio de administración remota a la máquina del ADMIN, validando sus direcciones física y lógica.
+iptables -A INPUT -p tcp --dport 21 -s $ADMIN_ADDR -m mac --mac-source $ADMIN_MAC -j ACCEPT
+iptables -A INPUT -p tcp --dport 22 -s $ADMIN_ADDR -m mac --mac-source $ADMIN_MAC -j ACCEPT
+
+#  Únicamente permite que le haga ping la máquina del ADMIN validando su dirección lógica.
+iptables -A INPUT -p icmp --icmp-type echo-request -s $ADMIN_ADDR -j ACCEPT
+
+# Permite hacer ping a cualquier máquina. recibo replys de cualquiera
+iptables -A INPUT -p icmp --icmp-type echo-reply -j ACCEPT
+
+
+#iptables -A INPUT -p tcp --sport 5432 -s $DB_SERVER_ADDR -m mac --mac-source $DB_SERVER_MAC -j ACCEPT
+
+#************* REGLAS DE OUTPUT ***********
+iptables -A OUTPUT -p tcp --sport 80 -j ACCEPT
+iptables -A OUTPUT -p tcp --sport 443 -j ACCEPT
+iptables -A OUTPUT -p tcp --sport 21 -j ACCEPT
+iptables -A OUTPUT -p tcp --sport 22 -j ACCEPT
+
+# Permite que cualquier máquina de la red local le haga ping. respondo con replys
+iptables -A OUTPUT -p icmp --icmp-type echo-reply -j ACCEPT
+
+# Permite hacer ping a cualquier máquina. hago request a cualquiera
+iptables -A OUTPUT -p icmp --icmp-type echo-request -j ACCEPT
+
+#iptables -A OUTPUT -p tcp --dport 5432 -j ACCEPT
+
+#************* REPORTE ***********
+iptables -nL

@@ -5,7 +5,6 @@ import (
 	"api-fiber-gorm/database"
 	"api-fiber-gorm/model"
 	"errors"
-	"fmt"
 	"net/mail"
 	"time"
 
@@ -46,6 +45,18 @@ func getUserByUsername(u string) (*model.User, error) {
 	return &user, nil
 }
 
+func getUserRole(id int) (string, error) {
+	db := database.DB
+	var user_type model.UserType
+	if err := db.Find(&user_type, id).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return "", err
+		}
+		return "", err
+	}
+	return user_type.Role, nil
+}
+
 func valid(email string) bool {
 	_, err := mail.ParseAddress(email)
 	return err == nil
@@ -54,7 +65,7 @@ func valid(email string) bool {
 // Login get user and password
 func Login(c *fiber.Ctx) error {
 	type LoginInput struct {
-		Identity string `json:"identity"`
+		Username string `json:"username"`
 		Password string `json:"password"`
 	}
 	type UserData struct {
@@ -62,6 +73,7 @@ func Login(c *fiber.Ctx) error {
 		Username string `json:"username"`
 		Email    string `json:"email"`
 		Password string `json:"password"`
+		Role     string `json:"role"`
 	}
 	input := new(LoginInput)
 	var ud UserData
@@ -70,7 +82,7 @@ func Login(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status": "error", "message": "Error on login request", "data": err})
 	}
 
-	identity := input.Identity
+	identity := input.Username
 	pass := input.Password
 	user := new(model.User)
 	email := new(model.User)
@@ -99,20 +111,26 @@ func Login(c *fiber.Ctx) error {
 	}
 
 	if email != nil {
+		role, _ := getUserRole(email.UserTypeId)
+
 		ud = UserData{
 			ID:       email.ID,
 			Username: email.Username,
 			Email:    email.Email,
 			Password: email.Password,
+			Role:     role,
 		}
 
 	}
 	if user != nil {
+		role, _ := getUserRole(user.UserTypeId)
+
 		ud = UserData{
 			ID:       user.ID,
 			Username: user.Username,
 			Email:    user.Email,
 			Password: user.Password,
+			Role:     role,
 		}
 	}
 
@@ -123,55 +141,28 @@ func Login(c *fiber.Ctx) error {
 	// Create the Claims
 	claims := jwt.MapClaims{
 		"username": ud.Username,
+		"roles":    ud.Role,
 		"user_id":  ud.ID,
 		"exp":      time.Now().Add(time.Hour * 24).Unix(), // 24 hours
 	}
 
-	// fmt.Println("Vamos a imprimir identity")
-	// fmt.Println(identity)
-
-	// claims["username"] = ud.Username
-	// claims["user_id"] = ud.ID
-	// claims["exp"] = time.Now().Add(time.Hour * 24).Unix() // 24 hours
-
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
-	t, err := token.SignedString([]byte(config.Config("SECRET")))
+	accessToken, err := token.SignedString([]byte(config.Config("SECRET")))
 	if err != nil {
 		return c.SendStatus(fiber.StatusInternalServerError)
 	}
 
-	return c.JSON(fiber.Map{"status": "success", "message": "Success login", "data": t})
-}
-
-func Logout(c *fiber.Ctx) error {
-	user := c.Locals("user").(*jwt.Token)
-	fmt.Println(user)
-
-	claims := user.Claims.(jwt.MapClaims)
-	fmt.Println(claims)
-	name := claims["username"].(string)
-
-	fmt.Println(user.Raw) // token
-
-	return c.SendString("Welcome " + name)
-	// return c.JSON(fiber.Map{"status": "success", "message": "Success logout"})
+	return c.JSON(fiber.Map{"accessToken": accessToken, "roles": ud.Role, "id": ud.ID, "username": ud.Username})
 }
 
 func GetUserIdOfToken(c *fiber.Ctx) int {
 	user := c.Locals("user").(*jwt.Token)
-	fmt.Println(user)
 
 	claims := user.Claims.(jwt.MapClaims)
-	fmt.Println(claims)
-	// name := claims["username"].(string)
 
-	// fmt.Println(user.Raw) // token
+	user_id := int(claims["user_id"].(float64))
 
-	// return c.SendString("Welcome " + name)
-
-	user_id := claims["username"].(int)
 	return user_id
-	
-	// return c.JSON(fiber.Map{"status": "success", "message": "Success logout"})
+
 }

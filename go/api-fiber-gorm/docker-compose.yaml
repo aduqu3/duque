@@ -2,33 +2,33 @@
 version: '3.8'
 
 services:
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    # command: uvicorn main:app --host 0.0.0.0
-    restart: always
-    volumes:
-      # - .:/code
-      - "/etc/localtime:/etc/localtime:ro"
-      - "/etc/timezone:/etc/timezone:ro"
-    ports:
-      - 8000:8000
-    environment:
-      - DB_HOST=db
-      - DB_PORT=${DB_PORT}
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - DB_NAME=${DB_NAME}
-      - SECRET=${SECRET}
-      - MEDIA_PATH=${MEDIA_PATH}
-      - MEDIA_URL=${MEDIA_URL}
-      - SERVER_PORT=${SERVER_PORT}
-      - TZ=America/Bogota
-    external_links:
-      - app:app
-    networks:
-      - pets_net
+  # app:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   # command: uvicorn main:app --host 0.0.0.0
+  #   restart: always
+  #   volumes:
+  #     # - .:/code
+  #     - "/etc/localtime:/etc/localtime:ro"
+  #     - "/etc/timezone:/etc/timezone:ro"
+  #   ports:
+  #     - 8000:8000
+  #   environment:
+  #     - DB_HOST=db
+  #     - DB_PORT=${DB_PORT}
+  #     - DB_USER=${DB_USER}
+  #     - DB_PASSWORD=${DB_PASSWORD}
+  #     - DB_NAME=${DB_NAME}
+  #     - SECRET=${SECRET}
+  #     - MEDIA_PATH=${MEDIA_PATH}
+  #     - MEDIA_URL=${MEDIA_URL}
+  #     - SERVER_PORT=${SERVER_PORT}
+  #     - TZ=America/Bogota
+  #   external_links:
+  #     - app:app
+  #   networks:
+  #     - pets_net
   
   db:
     image: postgres:14.1-alpine
@@ -41,17 +41,17 @@ services:
     ports:
       - '5432:5432'
     volumes: 
-      - pets_app:/var/lib/postgresql/data
+      - bsc_app:/var/lib/postgresql/data
       - "/etc/localtime:/etc/localtime:ro"
       - "/etc/timezone:/etc/timezone:ro"
     networks:
-      - pets_net
+      - bsc_net
 
 volumes:
-  pets_app:
+  bsc_app:
 
 networks:
-  pets_net:
-      name: pets_net
+  bsc_net:
+      name: bsc_net
       external: true
     

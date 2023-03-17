@@ -164,5 +164,4 @@ func GetUserIdOfToken(c *fiber.Ctx) int {
 	user_id := int(claims["user_id"].(float64))
 
 	return user_id
-
 }

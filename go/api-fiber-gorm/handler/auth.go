@@ -141,7 +141,7 @@ func Login(c *fiber.Ctx) error {
 	// Create the Claims
 	claims := jwt.MapClaims{
 		"username": ud.Username,
-		"roles":    ud.Role,
+		"role":     ud.Role,
 		"user_id":  ud.ID,
 		"exp":      time.Now().Add(time.Hour * 24).Unix(), // 24 hours
 	}
@@ -153,7 +153,7 @@ func Login(c *fiber.Ctx) error {
 		return c.SendStatus(fiber.StatusInternalServerError)
 	}
 
-	return c.JSON(fiber.Map{"accessToken": accessToken, "roles": ud.Role, "id": ud.ID, "username": ud.Username})
+	return c.JSON(fiber.Map{"accessToken": accessToken, "role": ud.Role, "id": ud.ID, "username": ud.Username})
 }
 
 func GetUserIdOfToken(c *fiber.Ctx) int {

@@ -90,11 +90,6 @@ func CreateUser(c *fiber.Ctx) error {
 
 	user.Password = hash
 
-	// if usertype not defined is normal user
-	// if user.UserTypeId == 0 {
-	// 	user.UserTypeId = 1
-	// }
-
 	if err := db.Create(&user).Error; err != nil {
 		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Couldn't create user", "data": err})
 	}

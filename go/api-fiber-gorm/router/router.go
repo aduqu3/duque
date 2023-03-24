@@ -11,9 +11,14 @@ import (
 // SetupRoutes setup router api
 func SetupRoutes(app *fiber.App) {
 
+	// allowedRoles := []string{"admin"}
+
 	// Middleware
 	api := app.Group("/api", logger.New())
 	api.Get("/", handler.Hello)
+	api.Get("/admin", middleware.ProtectedByRole("admin"), handler.HelloAdmin)
+	api.Get("/academico", middleware.ProtectedByRole("academico"), handler.HelloAcademico)
+	api.Get("/empresario", middleware.ProtectedByRole("empresario"), handler.HelloEmpresario)
 
 	// Auth
 	auth := api.Group("/auth")
@@ -30,9 +35,9 @@ func SetupRoutes(app *fiber.App) {
 	// address.Get("/active", middleware.Protected(), handler.GetActiveUserAddress) // funciona - get para relacion
 	// // http://localhost:8000/api/address/search?user_id=1
 
-	// // Country
-	// // country := api.Group("/countrys")
-	// // country.Get("/", middleware.Protected(), handler.GetAllCountrys)
+	// Country
+	usertype := api.Group("/roles")
+	usertype.Get("/", handler.GetAllRoles)
 
 	// // // Department
 	// // department := api.Group("/departments")

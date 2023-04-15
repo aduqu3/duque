@@ -153,7 +153,8 @@ func Login(c *fiber.Ctx) error {
 		return c.SendStatus(fiber.StatusInternalServerError)
 	}
 
-	return c.JSON(fiber.Map{"accessToken": accessToken, "role": ud.Role, "id": ud.ID, "username": ud.Username})
+	// return c.JSON(fiber.Map{"accessToken": accessToken, "role": ud.Role, "id": ud.ID, "username": ud.Username})
+	return c.JSON(fiber.Map{"accessToken": accessToken})
 }
 
 func GetUserIdOfToken(c *fiber.Ctx) int {

@@ -1,2 +1,2 @@
 # duque
-Repositorio para proyectos de prueba
+Public repository that contains public projects.
